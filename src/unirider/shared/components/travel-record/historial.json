@@ -1,0 +1,19 @@
+[
+  {
+    "nombreConductor": "Juan Pérez",
+    "calificacion": 4.5,
+    "tiempoDuracion": "1 hora",
+    "fecha": "2024-04-30",
+    "precio": 30,
+    "estatus": "completado"
+  },
+  {
+    "nombreConductor": "María García",
+    "calificacion": 4.8,
+    "tiempoDuracion": "45 minutos",
+    "fecha": "2024-04-29",
+    "precio": 25,
+    "estatus": "completado"
+  },
+
+]

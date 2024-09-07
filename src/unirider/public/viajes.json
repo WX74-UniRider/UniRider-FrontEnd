@@ -1,0 +1,26 @@
+[
+  {
+    "nombre": "Juan Perez",
+    "destino": "SIsidro",
+    "origen": "S.Miguel",
+    "duracion": "7 min",
+    "estrellas": 1,
+    "estatus": "Completado",
+    "fecha": "2024-05-01",
+    "precio": 10,
+    "foto": "src/assets/FotoPerfil.png",
+    "estrella": "src/assets/estrella.png"
+  },
+  {
+    "nombre": "Viaje de negocios",
+    "destino": "Monterrico",
+    "origen": "S.Miguel",
+    "duracion": "3 min",
+    "estrellas": 1,
+    "estatus": "Cancelado",
+    "fecha": "2024/05/1",
+    "precio": 20,
+    "foto": "src/assets/FotoPerfil.png",
+    "estrella": "src/assets/estrella.png"
+  }
+]

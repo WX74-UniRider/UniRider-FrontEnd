@@ -1,0 +1,146 @@
+{
+  "Users": [
+    {
+      "id": 1,
+      "name": "Jorge Perez",
+      "email": "u202213414@upc.edu.pe",
+      "password": "password",
+      "plan": "conductor"
+    },
+    {
+      "id": 2,
+      "name": "Juan Perez",
+      "email": "u202213414@ulima.edu.pe",
+      "password": "password1",
+      "plan": "pasajero"
+    },
+    {
+      "id": 3,
+      "name": "Ana Gomez",
+      "email": "ana.gomez@example.com",
+      "password": "password2",
+      "plan": "conductor"
+    },
+    {
+      "id": 4,
+      "name": "Carlos Ruiz",
+      "email": "carlos.ruiz@example.com",
+      "password": "password3",
+      "plan": "pasajero"
+    },
+    {
+      "id": 5,
+      "name": "Luisa Martinez",
+      "email": "luisa.martinez@example.com",
+      "password": "password4",
+      "plan": "conductor"
+    }
+  ],
+  "Cards": [
+    {
+      "id": 1,
+      "userId": 1,
+      "cardName": "Jorge Perez",
+      "cardNumber": "1234 5678 9123 0000",
+      "expiredMonth": "06",
+      "expiredYear": "26",
+      "cvc": "123"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "cardName": "Juan Perez",
+      "cardNumber": "5678 1234 9123 0000",
+      "expiredMonth": "07",
+      "expiredYear": "25",
+      "cvc": "456"
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "cardName": "Ana Gomez",
+      "cardNumber": "7890 1234 5678 0000",
+      "expiredMonth": "08",
+      "expiredYear": "24",
+      "cvc": "789"
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "cardName": "Carlos Ruiz",
+      "cardNumber": "2345 6789 1234 0000",
+      "expiredMonth": "09",
+      "expiredYear": "27",
+      "cvc": "012"
+    },
+    {
+      "id": 5,
+      "userId": 5,
+      "cardName": "Luisa Martinez",
+      "cardNumber": "3456 7890 1234 0000",
+      "expiredMonth": "10",
+      "expiredYear": "28",
+      "cvc": "345"
+    },
+    {
+      "id": "416c",
+      "cardName": "",
+      "cardNumber": "",
+      "expiredMonth": "",
+      "expiredYear": "",
+      "cvc": "",
+      "userId": 1
+    },
+    {
+      "id": "8a1f",
+      "cardName": "",
+      "cardNumber": "",
+      "expiredMonth": "",
+      "expiredYear": "",
+      "cvc": "",
+      "userId": 1
+    }
+  ],
+  "Qualify": [
+    {
+      "id": 1,
+      "userId": 1,
+      "stars": "5",
+      "punctuality": "A tiempo",
+      "drive": "Segura",
+      "comments": "Muy buen servicio"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "stars": "4",
+      "punctuality": "Retrasado",
+      "drive": "Regular",
+      "comments": "Buen servicio"
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "stars": "3",
+      "punctuality": "Tarde",
+      "drive": "Peligrosa",
+      "comments": "Servicio regular"
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "stars": "4",
+      "punctuality": "A tiempo",
+      "drive": "Segura",
+      "comments": "Servicio bueno"
+    },
+    {
+      "id": 5,
+      "userId": 5,
+      "stars": "5",
+      "punctuality": "A tiempo",
+      "drive": "Segura",
+      "comments": "Excelente servicio"
+    }
+  ]
+}
