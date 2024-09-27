@@ -1,22 +1,23 @@
 <script>
 import { UserApiService } from '../services/user-api.service.js';
+import {AuthService} from "../../../../public/server/auth.service.js";
 
 export default {
   name: "login-user",
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      authService: new AuthService()
     };
   },
   methods: {
     async onSubmitLogin() {
       try {
-        const users = await UserApiService.login(this.email, this.password);
-        if (users.length > 0) {
-          const user = users[0];
-          localStorage.setItem('userId', user.id); // Guardar el ID del usuario en localStorage
-          localStorage.setItem('userType', user.plan); // Guardar el tipo de usuario en localStorage
+        const user = await this.authService.authenticate(this.email, this.password);
+        if (user && user.token) {
+          localStorage.setItem('userId', user.id);
+          localStorage.setItem('token', user.token);
           this.$router.push('/home');
         } else {
           alert("Credenciales incorrectas.");
