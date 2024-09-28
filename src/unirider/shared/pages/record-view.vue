@@ -3,13 +3,13 @@
     <div v-if="trips.length > 0">
       <div v-for="trip in trips" :key="trip.id" class="card-container">
         <travel-record-container
-              :nombre="trip.driver.username"
-        :destino="trip.destination"
-        :origen="'Origen por definir'"
-        :duracion="'Duración por definir'"
-        :estatus="trip.status"
-        :fecha="new Date(trip.departureTime).toLocaleString()"
-        :precio="trip.price || 'Precio no disponible'"
+            :nombre="trip.driver.username"
+            :destino="trip.destination"
+            :origen="'Origen por definir'"
+            :duracion="'Duración por definir'"
+            :estatus="trip.status"
+            :fecha="new Date(trip.departureTime).toLocaleString()"
+            :precio="trip.price || 'Precio no disponible'"
         :foto="'path/to/default/photo.png'"
         :estrellas="4"
         :estrella="'path/to/star/icon.png'"
