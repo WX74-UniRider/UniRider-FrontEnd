@@ -27,6 +27,9 @@
 </template>
 
 <script>
+
+import {UpdateService} from "../../../../../public/server/update.service.js";
+
 export default {
   name: 'ProfileCard',
   data() {
@@ -35,16 +38,35 @@ export default {
       lastName: '',
       email: '',
       password: '',
-      profilePicture: '../../../assets/FotoPerfil.png'
+      profilePicture: '../../../assets/FotoPerfil.png',
+      passengerId: '123', // ID de ejemplo, puedes obtenerlo dinámicamente
+      updateService: new UpdateService(), // Instancia de tu servicio
     };
   },
   methods: {
-    updateProfile() {
-      // Aquí podrías añadir la lógica para actualizar el perfil
-      console.log('Profile updated', this.firstName, this.lastName, this.email, this.password);
-    }
-  }
+    async updateProfile() {
+      try {
+        const passengerData = {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password,
+        };
+
+        // Llama al servicio para actualizar los datos
+        const updatedData = await this.updateService.updatePassenger(this.passengerId, passengerData);
+
+        // Si la actualización es exitosa, podrías mostrar un mensaje de éxito
+        console.log('Perfil actualizado:', updatedData);
+        alert('Perfil actualizado con éxito');
+      } catch (error) {
+        console.error('Error actualizando el perfil:', error);
+        alert('Hubo un error al actualizar el perfil');
+      }
+    },
+  },
 };
+
 </script>
 
 <style scoped>
