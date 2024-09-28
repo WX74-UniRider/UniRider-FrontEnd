@@ -7,6 +7,8 @@ export class Driver {
     vehiclePlate;
     insurance;
     vehicleModel;
+    destino;
+    userId;
 
     constructor(driver) {
         this.username = driver.username || '';
@@ -17,5 +19,7 @@ export class Driver {
         this.vehiclePlate = driver.vehiclePlate || '';
         this.insurance = driver.insurance || '';
         this.vehicleModel = driver.vehicleModel || '';
+        this.destino = driver.destino || '';
+        this.user = driver.userId || 0;
     }
 }

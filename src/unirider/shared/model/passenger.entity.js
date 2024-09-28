@@ -8,6 +8,7 @@ export class Passenger {
     preferences;
     phoneNumber;
     address;
+    userId;
     constructor(passenger) {
         this.id = passenger.id || 0;
         this.username = passenger.username || '';
@@ -18,5 +19,6 @@ export class Passenger {
         this.preferences = passenger.preferences || '';
         this.phoneNumber = passenger.phoneNumber || '';
         this.address = passenger.address || '';
+        this.userId = passenger.userId || 0;
     }
 }
