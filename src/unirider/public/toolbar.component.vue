@@ -9,13 +9,14 @@ export default {
   },
   methods: {
     goToMap() {
-      if (this.userType === 'conductor') {
-        this.$router.push('/mapsDriver');
-      } else if (this.userType === 'pasajero') {
-        this.$router.push('/maps');
-      } else {
-        alert("Tipo de usuario no reconocido.");
-      }
+      // if (this.userType === 'conductor') {
+      //   this.$router.push('/mapsDriver');
+      // } else if (this.userType === 'pasajero') {
+      //   this.$router.push('/maps');
+      // } else {
+      //   alert("Tipo de usuario no reconocido.");
+      // }
+      this.$router.push('/maps');
     }
   }
 }

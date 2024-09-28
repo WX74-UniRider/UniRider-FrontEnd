@@ -17,7 +17,7 @@ export default {
     },
     onVerifyAccount() {
       console.log("Login user");
-      this.$router.push('/home');
+      this.$router.push('/');
     }
   }
 }
