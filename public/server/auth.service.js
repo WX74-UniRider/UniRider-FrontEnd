@@ -21,12 +21,12 @@ export class AuthService{
     }
 
     async registerPassenger(Passenger) {
-        const response = await http.post('/Auth/register-developer', Passenger);
+        const response = await http.post('/authentication/sign-up/passenger', Passenger);
         return response.data;
     }
 
     async registerDriver(Driver) {
-        const response = await http.post('/Auth/register-enterprise', Driver);
+        const response = await http.post('/authentication/sign-up/driver', Driver);
         return response.data;
     }
 
