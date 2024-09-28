@@ -1,113 +1,109 @@
+<template>
+  <toolbar-component></toolbar-component>
+  <div class="cards-wrapper">
+    <div v-if="paginatedTrips.length > 0">
+      <div v-for="trip in paginatedTrips" :key="trip.id" class="card-container " @click="navigateToQualify(trip)">
+        <travel-record-container
+            :nombre="trip.driver.username"
+            :destino="trip.destination"
+            :origen="'Origen por definir'"
+            :duracion="'Duración por definir'"
+            :estatus="trip.status"
+            :fecha="new Date(trip.departureTime).toLocaleString()"
+            :precio="trip.price || 'Precio no disponible'"
+            :foto="'path/to/default/photo.png'"
+            :estrellas="4"
+            :estrella="'path/to/star/icon.png'"
+        />
+      </div>
+    </div>
+    <div v-else>
+      <p>No hay viajes disponibles</p>
+    </div>
+    <div class="paginator-container">
+      <pv-paginator
+          :first="currentPage * rowsPerPage"
+          :rows="rowsPerPage"
+          :total-records="trips.length"
+          @page="onPageChange"
+          :template="'PrevPageLink PageLinks NextPageLink'"
+      />
+    </div>
+  </div>
+</template>
+
 <script>
+import { TripService } from '../../../../public/server/trip.service';
 import TravelRecordContainer from "../components/travel-record/travel-record-container.vue";
 import ToolbarComponent from "../../public/toolbar.component.vue";
 
 export default {
-  name: 'RecordView',
   components: {
     ToolbarComponent,
     TravelRecordContainer,
   },
   data() {
     return {
-      listaViajes: []
+      trips: [],
+      currentPage: 0,
+      rowsPerPage: 3, // Solo se mostrarán 3 cards por página
     };
   },
-  created() {
-    fetch('src/unirider/public/viajes.json')
-        .then(response => response.json())
-        .then(data => {
-          this.listaViajes = data;
-        });
+  computed: {
+    paginatedTrips() {
+      const start = this.currentPage * this.rowsPerPage;
+      const end = start + this.rowsPerPage;
+      return this.trips.slice(start, end);
+    },
   },
   methods: {
-    esHoy(fechaViaje) {
-      const fechaHoy = new Date().toISOString().split('T')[0];
-      const fechaFormateada = fechaViaje.includes('/') ? fechaViaje.split('/').reverse().join('-') : fechaViaje;
-      return fechaFormateada === fechaHoy;
+    async fetchTrips() {
+      try {
+        const response = await TripService.getAllTrips();
+        this.trips = response;
+      } catch (error) {
+        console.error('Error al obtener los viajes:', error);
+      }
+    },
+    onPageChange(event) {
+      this.currentPage = event.page;
+    },
+    navigateToQualify(trip) {
+      // Pasar también el driverId al navegar a la página de calificación
+      this.$router.push({name: 'Qualify', params: {tripId: trip.id, driverId: trip.driver.id}});
     }
-  }
+  },
+  created() {
+    this.fetchTrips();
+  },
 };
 </script>
 
-<template>
-  <div>
-    <toolbar-component/>
-    <div class="app-container">
-      <img src="../../../img/logoUniRider.png" class="logoo" alt="LogoUniRider">
-      <div>
-        <h1>Historial</h1>
-      </div>
-      <div v-for="(viaje, index) in listaViajes" :key="index">
-        <div>
-          <h1 v-if="esHoy(viaje.fecha)">Hoy</h1>
-        </div>
-        <TravelRecordContainer
-            :nombre="viaje.nombre"
-            :destino="viaje.destino"
-            :origen="viaje.origen"
-            :duracion="viaje.duracion"
-            :estrellas="viaje.estrellas"
-            :estatus="viaje.estatus"
-            :fecha="viaje.fecha"
-            :precio="viaje.precio"
-            :foto="viaje.foto"
-            :estrella="viaje.estrella"
-        />
-      </div>
-      <button class="btn-salir" @click="$router.go(-1)">Salir</button>
-    </div>
-  </div>
-</template>
-
 <style scoped>
-
-.app-container {
-  position: absolute;
-  padding-left: 150px; /* Ajusta este valor para dejar espacio para el logo */
-
+.cards-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.logoo {
-  position: absolute;
-  top: 10px; /* Ajusta esta distancia desde la parte superior */
-  left: 10px; /* Ajusta esta distancia desde el lado izquierdo */
-  width: 80px; /* Ajusta el ancho del logo según sea necesario */
-  height: auto; /* Permite que la altura se ajuste automáticamente según el ancho */
-
+.card-container {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
 }
 
-.btn-salir {
-  background-color: #FF5733; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  padding: 10px 20px; /* Espaciado interno */
-  border-radius: 5px; /* Borde redondeado */
-  cursor: pointer; /* Cursor apuntador */
-  font-size: 16px; /* Tamaño de fuente */
+.paginator-container {
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  cursor: pointer;
 }
 
-.btn-salir:hover {
-  background-color: #FF8743; /* Color de fondo al pasar el mouse */
-}
-
-</style>
-<style>
-body {
-  background-color: #2DB3CB; /* Color de fondo */
-}
-
-@media screen and (max-width: 768px) {
-  .container {
-    padding: 0 20px; /* Adjust as needed */
+@media (min-width: 768px) {
+  .card-container {
+    max-width: 600px;
   }
 }
-
-@media screen and (max-width: 576px) {
-  .p-field {
-    width: 100%; /* Make fields take full width */
-  }
-}
-
 </style>
-

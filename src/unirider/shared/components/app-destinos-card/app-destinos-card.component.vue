@@ -1,7 +1,20 @@
 <script>
-  export default {
-    name:'AppDestinosCard',
-  }
+import { useRouter } from 'vue-router';
+
+export default {
+  name: 'AppDestinosCard',
+  setup() {
+    const router = useRouter();
+
+    const goToReservations = () => {
+      router.push('/reservations');
+    };
+
+    return {
+      goToReservations,
+    };
+  },
+};
 </script>
 
 <template>
@@ -25,7 +38,7 @@
         <img src="/src/assets/estrella.png" alt="estrella">
       </div>
     </div>
-    <button>Ver Tus Reservas</button>
+    <button @click="goToReservations">Crear una  Reserva</button>
   </div>
 </template>
 
