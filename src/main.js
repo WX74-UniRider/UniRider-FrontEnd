@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
 import router from './router'
 
@@ -14,6 +13,7 @@ import Card from 'primevue/card';
 import Password from 'primevue/password';
 
 import { GoogleMap } from 'vue3-google-map'
+import Paginator from 'primevue/paginator';
 
 createApp(App)
     .use(router)
@@ -30,4 +30,5 @@ createApp(App)
     .component('pv-button', Button)
     .component('pv-card', Card)
     .component('pv-password', Password)
+    .component('pv-paginator', Paginator)
     .mount('#app')

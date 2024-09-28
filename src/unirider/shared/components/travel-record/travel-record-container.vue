@@ -25,10 +25,10 @@ export default {
           <tr>
           </tr>
           <tr>
-            <td><img :src="foto"  style="max-width: 200px; max-width: 50%; padding: 0px;"></td>
+            <td><img src="/FotoPerfil.png" alt="imagen del usuario"  style="max-width: 200px; max-width: 50%; padding: 0px;"></td>
             <td class="background-blue"><strong>Calificacion:</strong>
               <span v-for="i in estrellas">
-              <img :src="estrella"  style="max-width: 10px; max-width: 5%; padding: 0px;">
+              <img src="/estrella.png" style="display: flex; justify-content: center; align-items: center; width: 20px; height: 20px; object-fit: contain; padding: 0px;">
               </span>
             </td>
             <td></td>

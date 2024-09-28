@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <div v-if="trips.length > 0">
-      <div v-for="trip in trips" :key="trip.id" class="card-container" @click="navigateToQualify(trip)">
+  <toolbar-component></toolbar-component>
+  <div class="cards-wrapper">
+    <div v-if="paginatedTrips.length > 0">
+      <div v-for="trip in paginatedTrips" :key="trip.id" class="card-container " @click="navigateToQualify(trip)">
         <travel-record-container
             :nombre="trip.driver.username"
             :destino="trip.destination"
@@ -19,19 +20,41 @@
     <div v-else>
       <p>No hay viajes disponibles</p>
     </div>
+    <div class="paginator-container">
+      <pv-paginator
+          :first="currentPage * rowsPerPage"
+          :rows="rowsPerPage"
+          :total-records="trips.length"
+          @page="onPageChange"
+          :template="'PrevPageLink PageLinks NextPageLink'"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import {TripService} from '../../../../public/server/trip.service';
+import { TripService } from '../../../../public/server/trip.service';
 import TravelRecordContainer from "../components/travel-record/travel-record-container.vue";
+import ToolbarComponent from "../../public/toolbar.component.vue";
 
 export default {
-  components: {TravelRecordContainer},
+  components: {
+    ToolbarComponent,
+    TravelRecordContainer,
+  },
   data() {
     return {
       trips: [],
+      currentPage: 0,
+      rowsPerPage: 3, // Solo se mostrarán 3 cards por página
     };
+  },
+  computed: {
+    paginatedTrips() {
+      const start = this.currentPage * this.rowsPerPage;
+      const end = start + this.rowsPerPage;
+      return this.trips.slice(start, end);
+    },
   },
   methods: {
     async fetchTrips() {
@@ -42,6 +65,9 @@ export default {
         console.error('Error al obtener los viajes:', error);
       }
     },
+    onPageChange(event) {
+      this.currentPage = event.page;
+    },
     navigateToQualify(trip) {
       // Pasar también el driverId al navegar a la página de calificación
       this.$router.push({name: 'Qualify', params: {tripId: trip.id, driverId: trip.driver.id}});
@@ -49,20 +75,35 @@ export default {
   },
   created() {
     this.fetchTrips();
-  }
+  },
 };
 </script>
 
 <style scoped>
-.card-container {
+.cards-wrapper {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.card-container {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.paginator-container {
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  justify-content: center;
   cursor: pointer;
 }
 
 @media (min-width: 768px) {
   .card-container {
-    flex-direction: row;
+    max-width: 600px;
   }
 }
 </style>
