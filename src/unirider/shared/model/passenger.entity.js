@@ -10,7 +10,7 @@ export class Passenger {
     address;
     constructor(passenger) {
         this.id = passenger.id || 0;
-        this.username = passenger.firstName || '';
+        this.username = passenger.username || '';
         this.password = passenger.password || '';
         this.roles = passenger.roles || [];
         this.firstName = passenger.firstName || '';

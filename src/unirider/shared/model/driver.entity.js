@@ -1,5 +1,5 @@
 export class Driver {
-    userName;
+    username;
     password;
     firstName;
     lastName;
@@ -9,7 +9,7 @@ export class Driver {
     vehicleModel;
 
     constructor(driver) {
-        this.userName = driver.username || '';
+        this.username = driver.username || '';
         this.password = driver.password || '';
         this.firstName = driver.firstName || '';
         this.lastName = driver.lastName || '';
