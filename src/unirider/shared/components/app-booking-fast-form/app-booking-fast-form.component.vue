@@ -1,60 +1,67 @@
-<script setup>
-import { ref } from 'vue';
-import { BooksApiService } from "../../services/User-books.service.js"
-import { defineProps } from 'vue';
-
-const props = defineProps({
-  passengerId: Number,
-  driverId: Number,
-  destination: String
-});
-
-const tripStartTime = ref('');
-const isFormVisible = ref(true);
-
-const closeForm = () => {
-  isFormVisible.value = false;
-};
-
-const submitForm = async () => {
-  const newBook = {
-    trip_id: 1,
-    passenger_id: props.passengerId,
-    driver_id: props.driverId,
-    tripStartTime: tripStartTime.value,
-    destination: props.destination,
-    reservationTime: new Date().toISOString(),
-    status: 'pending'
-
-  };
-
-  try {
-    await BooksApiService.createBook(newBook);
-  } catch (error) {
-    console.error('Error creating book:', error);
-  }
-  closeForm();
-};
-
-</script>
-
 <template>
-
-  <div v-if="isFormVisible" class="overlay">
-    <div class="form-container">
-      <form @submit.prevent="submitForm">
-        <div class="form-group">
-          <label for="tripStartTime">Fecha y hora de inicio del viaje:</label>
-          <input type="datetime-local" id="tripStartTime" v-model="tripStartTime" />
-        </div>
-        <div class="form-actions">
-          <button type="submit">Aceptar</button>
-          <button type="button" @click="closeForm">Cancelar</button>
-        </div>
-      </form>
+  <form @submit.prevent="submitForm">
+    <div>
+      <label for="tripId">ID del Viaje:</label>
+      <input type="number" v-model="reservationData.tripId" required />
     </div>
+
+    <div>
+      <label for="passengerId">ID del Pasajero:</label>
+      <input type="number" v-model="reservationData.passengerId" required />
+    </div>
+
+    <div>
+      <label for="driverId">ID del Conductor:</label>
+      <input type="number" v-model="reservationData.driverId" />
+    </div>
+
+    <div>
+      <label for="tripStartTime">Fecha y Hora de Inicio del Viaje:</label>
+      <input type="datetime-local" v-model="reservationData.tripStartTime" required />
+    </div>
+
+    <div>
+      <label for="destination">Destino:</label>
+      <input type="text" v-model="reservationData.destination" required />
+    </div>
+
+    <button type="submit">Crear Reserva</button>
+  </form>
+
+  <div v-if="successMessage" class="success-message">
+    {{ successMessage }}
   </div>
 </template>
+
+<script>
+import { BooksApiService } from "../../services/User-books.service.js";
+
+export default {
+  data() {
+    return {
+      reservationData: {
+        tripId: null,
+        passengerId: null,
+        driverId: null, // Opcional
+        tripStartTime: '',
+        destination: ''
+      },
+      successMessage: '' // Estado para el mensaje de éxito
+    };
+  },
+  methods: {
+    async submitForm() {
+      try {
+        const response = await BooksApiService.createReservation(this.reservationData);
+        console.log('Reserva creada:', response);
+        this.successMessage = 'Reserva creada exitosamente'; // Actualizar el mensaje de éxito
+      } catch (error) {
+        console.error('Error creando reserva:', error);
+      }
+    }
+  }
+};
+</script>
 
 <style scoped>
 .overlay {
@@ -93,11 +100,6 @@ input {
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-}
-
 button {
   padding: 10px 20px;
   border: none;
@@ -109,5 +111,11 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+.success-message {
+  margin-top: 20px;
+  color: green;
+  font-weight: bold;
 }
 </style>

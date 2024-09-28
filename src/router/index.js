@@ -17,6 +17,9 @@ import NewCard from "../unirider/shared/pages/add-a-card.vue";
 import ProfileUser from "../unirider/shared/pages/Profile-user.component.vue";
 import MapsPageDriver from "../unirider/shared/pages/maps-page-driver.component.vue"
 
+import AppBookingFastForm from '../unirider/shared/components/app-booking-fast-form/app-booking-fast-form.component.vue';
+
+
 const routes = [
     { path: '/', component: LoginUser },
     { path: '/create', component: RegisterUser },
@@ -35,6 +38,7 @@ const routes = [
     { path: '/OtherMethodpayment', component: OtherPaymentMethodComponent},
     {path: '/new-card', component: NewCard },
     {path: '/profile', component: ProfileUser },
+    {path: '/reservations', component: AppBookingFastForm}
 
 ]
 
