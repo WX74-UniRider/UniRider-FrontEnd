@@ -1,27 +1,3 @@
-<script>
-export default {
-  name: "toolbar-component",
-  data() {
-    return {
-      userPhoto: 'ruta/a/la/foto/del/usuario.jpg', // Reemplaza esto con la ruta real a la foto del usuario
-      userType: localStorage.getItem('userType')
-    };
-  },
-  methods: {
-    goToMap() {
-      // if (this.userType === 'conductor') {
-      //   this.$router.push('/mapsDriver');
-      // } else if (this.userType === 'pasajero') {
-      //   this.$router.push('/maps');
-      // } else {
-      //   alert("Tipo de usuario no reconocido.");
-      // }
-      this.$router.push('/maps');
-    }
-  }
-}
-</script>
-
 <template>
   <nav class="toolbar">
     <div class="logo">
@@ -43,14 +19,33 @@ export default {
       <a>
         <router-link to="/record">Historial</router-link>
       </a>
-      <a>
-        <router-link to="/">Cerrar Sesion</router-link>
-      </a>
-      <a><i class="fa fa-bell"></i></a> <!-- Icono de campana (notificaciones) -->
-      <a><img :src="userPhoto" alt=" "></a>
+      <a @click.prevent="logout">Cerrar Sesión</a>
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  name: "toolbar-component",
+  data() {
+    return {
+      userPhoto: 'src/assets/FotoPerfil.png', // Reemplaza esto con la ruta real a la foto del usuario
+      userType: localStorage.getItem('userType')
+    };
+  },
+  methods: {
+    goToMap() {
+      this.$router.push('/maps');
+    },
+    logout() {
+      // Limpiar todas las variables del localStorage
+      localStorage.clear();
+      // Redirigir a la página de inicio de sesión o a la página de inicio
+      this.$router.push('/');
+    }
+  }
+}
+</script>
 
 <style>
 .toolbar {
@@ -86,5 +81,11 @@ a {
   font-weight: 500;
   color: #f0f0f0;
   text-decoration: inherit;
+}
+
+.profile-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 </style>
