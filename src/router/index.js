@@ -26,6 +26,12 @@ const routes = [
     { path: '/home', name: 'Home', component: Home },
     { path: '/main', name:'main', component: ToolbarComponent },
     { path: '/maps', component: MapsPageDriver},
+    // otras rutas...
+    {
+        path: '/qualify/:tripId/:driverId',
+        name: 'Qualify',
+        component: QualifyCard
+    }   ,
 
 
     { path: '/mapsDriver', component: MapsPageDriver},

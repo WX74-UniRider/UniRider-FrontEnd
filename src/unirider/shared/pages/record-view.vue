@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="trips.length > 0">
-      <div v-for="trip in trips" :key="trip.id" class="card-container">
+      <div v-for="trip in trips" :key="trip.id" class="card-container" @click="navigateToQualify(trip)">
         <travel-record-container
             :nombre="trip.driver.username"
             :destino="trip.destination"
@@ -10,9 +10,9 @@
             :estatus="trip.status"
             :fecha="new Date(trip.departureTime).toLocaleString()"
             :precio="trip.price || 'Precio no disponible'"
-        :foto="'path/to/default/photo.png'"
-        :estrellas="4"
-        :estrella="'path/to/star/icon.png'"
+            :foto="'path/to/default/photo.png'"
+            :estrellas="4"
+            :estrella="'path/to/star/icon.png'"
         />
       </div>
     </div>
@@ -41,6 +41,10 @@ export default {
       } catch (error) {
         console.error('Error al obtener los viajes:', error);
       }
+    },
+    navigateToQualify(trip) {
+      // Pasar también el driverId al navegar a la página de calificación
+      this.$router.push({name: 'Qualify', params: {tripId: trip.id, driverId: trip.driver.id}});
     }
   },
   created() {
@@ -53,6 +57,7 @@ export default {
 .card-container {
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 @media (min-width: 768px) {

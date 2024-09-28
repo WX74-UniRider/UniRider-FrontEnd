@@ -1,6 +1,6 @@
 <script>
 import ToolbarComponent from "../../../public/toolbar.component.vue";
-import { UserApiService } from '../../services/user-api.service.js';
+import {RatingService} from "../../../../../public/server/rating.service.js";
 
 export default {
   name: "qualify-card",
@@ -11,8 +11,10 @@ export default {
       selectedButtonSection2: null,
       comment: '',
       showThankYouMessage: false,
-      rating: 0, // Inicializa la calificación actual
-      stars: [1, 2, 3, 4, 5], // Inicializa las estrellas
+      rating: 0,
+      stars: [1, 2, 3, 4, 5],
+      tripId: null,
+      driverId: null,
     };
   },
   methods: {
@@ -29,33 +31,52 @@ export default {
       }
     },
     async submitComment() {
-      const userId = localStorage.getItem('userId'); // Obtener el ID del usuario logeado desde localStorage
+      const userId = localStorage.getItem('userId'); // Asegúrate de que el ID del pasajero esté en el localStorage
       if (!userId) {
         console.error("User ID not found in localStorage");
         return;
       }
 
+      // Validar si `tripId` y `driverId` han sido asignados correctamente
+      if (!this.tripId || !this.driverId) {
+        console.error("tripId o driverId no asignado correctamente");
+        return;
+      }
+
       const qualify = {
-        stars: this.rating,
-        punctuality: this.selectedButtonSection1,
-        drive: this.selectedButtonSection2,
-        comments: this.comment,
-        userId: parseInt(userId)
+        tripId: this.tripId,         // ID del viaje actual
+        passengerId: parseInt(userId), // ID del pasajero (del localStorage)
+        driverId: this.driverId,      // ID del conductor asociado al viaje
+        score: this.rating,           // Calificación
+        comment: this.comment,        // Comentario
       };
 
       try {
-        await UserApiService.addQualify(qualify);
+        const ratingService = new RatingService(); // Crear una instancia de RatingService
+        await ratingService.addRating(qualify);    // Usar RatingService para añadir la calificación
         this.showThankYouMessage = true;
         setTimeout(() => {
           this.showThankYouMessage = false;
           this.$router.push('/home');
         }, 3000);
       } catch (error) {
-        console.error("Error adding qualify:", error);
+        console.error("Error al enviar la calificación:", error);
       }
     },
     setRating(starIndex) {
-      this.rating = starIndex;
+      this.rating = starIndex; // Asignar el índice de la calificación seleccionada
+    }
+  },
+  created() {
+    // Obtener el tripId y driverId desde los parámetros de la ruta
+    this.tripId = this.$route.params.tripId;
+    this.driverId = this.$route.params.driverId;
+
+    if (!this.tripId) {
+      console.error("Trip ID no encontrado en los parámetros de la ruta");
+    }
+    if (!this.driverId) {
+      console.error("Driver ID no encontrado en los parámetros de la ruta");
     }
   }
 }

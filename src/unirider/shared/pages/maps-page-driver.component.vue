@@ -49,7 +49,7 @@ const handleRequestTrip = async (paymentMethod) => {
     try {
       // Aquí deberías tener una función en tu servicio para crear el viaje
       await createTrip(tripData);
-      console.log('Viaje solicitado con éxito');
+      alert('Viaje solicitado con éxito');
       // Aquí puedes añadir lógica adicional como mostrar un mensaje o redirigir
     } catch (error) {
       console.error('Error al solicitar el viaje:', error);
@@ -74,7 +74,7 @@ const createTrip = async (tripData) => {
 
 <template>
   <div class="app-container">
-    <ToolbarComponent/>
+    <ToolbarComponent />
     <div class="card-container">
       <div class="search-container">
         <div class="search-wrapper">
@@ -98,7 +98,8 @@ const createTrip = async (tripData) => {
           <mat-card>
             <mat-card-title>{{ driver.user.firstName }} {{ driver.user.lastName }}</mat-card-title>
             <mat-card-content>
-              [...]
+              <p>Destino: {{ driver.destino }}</p> <!-- Cambiado a destino -->
+              <p>Vehículo: {{ driver.vehicleModel }}</p>
               <p>Placa: {{ driver.vehiclePlate }}</p>
             </mat-card-content>
           </mat-card>
