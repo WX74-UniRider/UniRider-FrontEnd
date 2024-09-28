@@ -1,13 +1,24 @@
 <script setup>
-import { ref } from 'vue';
-import axios from 'axios'; // Import axios
+import {ref} from 'vue';
+import axios from 'axios'; // Importa axios
 import ToolbarComponent from "../../public/toolbar.component.vue";
-import { ProfileService } from "../../../../public/server/profile.service.js";
+import {ProfileService} from "../../../../public/server/profile.service.js";
 
 const searchQuery = ref('');
 const drivers = ref([]);
 const selectedDriver = ref(null);
 const showOtherPaymentMethod = ref(false);
+const tripPrices = ref([]);
+const selectedPrice = ref(null); // Nueva variable para la tarifa seleccionada
+
+const generateRandomTripPrices = () => {
+  const prices = [
+    {id: 1, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/'},
+    {id: 2, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/'},
+    {id: 3, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/'}
+  ];
+  return prices;
+};
 
 const fetchDrivers = async (destination) => {
   try {
@@ -31,35 +42,41 @@ const handleSearchClick = () => {
 // Manejamos la selección de un conductor
 const selectDriver = (driver) => {
   selectedDriver.value = driver;
+  tripPrices.value = generateRandomTripPrices();
+  selectedPrice.value = null; // Resetea la tarifa seleccionada al elegir un nuevo conductor
+};
+
+// Función para seleccionar una tarifa
+const selectPrice = (price) => {
+  selectedPrice.value = price;
+  console.log('Tarifa seleccionada:', selectedPrice.value);
 };
 
 const handleRequestTrip = async (paymentMethod) => {
-  if (selectedDriver.value) {
-    const passengerId = localStorage.getItem('userId'); // Recupera el userId del localStorage
-    const driverId = selectedDriver.value.userId; // Obtén el userId del conductor
+  if (selectedDriver.value && selectedPrice.value) { // Verifica si se ha seleccionado conductor y tarifa
+    const passengerId = localStorage.getItem('userId');
+    const driverId = selectedDriver.value.userId;
 
     const tripData = {
-      destination: selectedDriver.value.destino, // O cualquier destino que desees usar
+      destination: selectedDriver.value.destino,
       driverId: driverId,
       passengerId: passengerId,
-      status: 'PENDING', // O el estado que quieras establecer
-      price: 0 // Establece un precio según sea necesario
+      status: 'PENDING',
+      price: selectedPrice.value.amount // Usa la tarifa seleccionada
     };
 
     try {
-      // Aquí deberías tener una función en tu servicio para crear el viaje
       await createTrip(tripData);
       alert('Viaje solicitado con éxito');
-      // Aquí puedes añadir lógica adicional como mostrar un mensaje o redirigir
     } catch (error) {
       console.error('Error al solicitar el viaje:', error);
     }
   } else {
-    console.log('No se ha seleccionado ningún conductor');
+    alert('Debe seleccionar un conductor y una tarifa antes de solicitar el viaje');
   }
 };
 
-// Función para crear el viaje (deberás implementar esto)
+// Función para crear el viaje
 const createTrip = async (tripData) => {
   const token = localStorage.getItem('token'); // Asegúrate de obtener el token
   const response = await axios.post('http://localhost:8080/api/v1/trips', tripData, {
@@ -74,7 +91,7 @@ const createTrip = async (tripData) => {
 
 <template>
   <div class="app-container">
-    <ToolbarComponent />
+    <ToolbarComponent/>
     <div class="card-container">
       <div class="search-container">
         <div class="search-wrapper">
@@ -98,7 +115,7 @@ const createTrip = async (tripData) => {
           <mat-card>
             <mat-card-title>{{ driver.user.firstName }} {{ driver.user.lastName }}</mat-card-title>
             <mat-card-content>
-              <p>Destino: {{ driver.destino }}</p> <!-- Cambiado a destino -->
+              <p>Destino: {{ driver.destino }}</p>
               <p>Vehículo: {{ driver.vehicleModel }}</p>
               <p>Placa: {{ driver.vehiclePlate }}</p>
             </mat-card-content>
@@ -115,9 +132,25 @@ const createTrip = async (tripData) => {
           <p><strong>Placa:</strong> {{ selectedDriver.vehiclePlate }}</p>
           <p><strong>Teléfono:</strong> {{ selectedDriver.phoneNumber }}</p>
           <p><strong>Seguro:</strong> {{ selectedDriver.insurance }}</p>
+
+          <div v-if="tripPrices.length > 0">
+            <h4>Tarifas disponibles:</h4>
+            <ul>
+              <li v-for="price in tripPrices" :key="price.id">
+                <button @click="selectPrice(price)">
+                  {{ price.amount }} {{ price.currency }}
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div v-if="selectedPrice">
+            <p>Tarifa seleccionada: {{ selectedPrice.amount }} {{ selectedPrice.currency }}</p>
+          </div>
+
+          <button @click="handleRequestTrip('Metodo Normal')" class="request-button">Solicitar Viaje</button>
+          <button @click="handleRequestTrip('Otro Metodo')" class="request-button">Otro Método de Pago</button>
         </div>
-        <button @click="handleRequestTrip('Metodo Normal')" class="request-button">Solicitar Viaje</button>
-        <button @click="handleRequestTrip('Otro Metodo')" class="request-button">Otro Método de Pago</button>
         <div v-if="showOtherPaymentMethod">
           <p>Campos para otro método de pago</p>
         </div>
