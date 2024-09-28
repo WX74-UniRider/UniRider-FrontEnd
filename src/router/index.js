@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import QualifyCard from '../unirider/shared/components/qualify-card/qualify-card.component.vue';
-import MapsPage from "../unirider/shared/pages/maps-page.component.vue";
 import LoginUser from '../unirider/shared/pages/login-user.component.vue';
 import ToolbarComponent from "../unirider/public/toolbar.component.vue";
 import Home from "../unirider/shared/pages/home.component.vue";
@@ -18,7 +17,7 @@ import ProfileUser from "../unirider/shared/pages/Profile-user.component.vue";
 import MapsPageDriver from "../unirider/shared/pages/maps-page-driver.component.vue"
 
 import AppBookingFastForm from '../unirider/shared/components/app-booking-fast-form/app-booking-fast-form.component.vue';
-
+import BuscarMaps from '../unirider/shared/pages/buscarMaps.vue';
 
 const routes = [
     { path: '/', component: LoginUser },
@@ -26,7 +25,9 @@ const routes = [
     { path: '/verify', component: ChooseUser },
     { path: '/home', name: 'Home', component: Home },
     { path: '/main', name:'main', component: ToolbarComponent },
-    { path: '/maps', component: MapsPage},
+    { path: '/maps', component: MapsPageDriver},
+
+
     { path: '/mapsDriver', component: MapsPageDriver},
     { path: '/confirm', component: confirmation},
     { path: '/confirmPassenger', component: confirmationPassenger},
