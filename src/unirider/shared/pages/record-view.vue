@@ -2,7 +2,7 @@
   <toolbar-component></toolbar-component>
   <div class="cards-wrapper">
     <div v-if="paginatedTrips.length > 0">
-      <div v-for="trip in paginatedTrips" :key="trip.id" class="card-container">
+      <div v-for="trip in paginatedTrips" :key="trip.id" class="card-container " @click="navigateToQualify(trip)">
         <travel-record-container
             :nombre="trip.driver.username"
             :destino="trip.destination"
@@ -67,6 +67,10 @@ export default {
     },
     onPageChange(event) {
       this.currentPage = event.page;
+    },
+    navigateToQualify(trip) {
+      // Pasar también el driverId al navegar a la página de calificación
+      this.$router.push({name: 'Qualify', params: {tripId: trip.id, driverId: trip.driver.id}});
     }
   },
   created() {
@@ -92,8 +96,9 @@ export default {
 .paginator-container {
   margin-top: 20px;
   display: flex;
-  justify-content: center;
   width: 100%;
+  justify-content: center;
+  cursor: pointer;
 }
 
 @media (min-width: 768px) {

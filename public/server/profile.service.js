@@ -1,33 +1,28 @@
 import axios from 'axios';
 
-const http= axios.create({
-    baseURL:'http://localhost:8080/api/v1',
-})
+const http = axios.create({
+    baseURL: 'http://localhost:8080/api/v1/profile',
+});
 
 export class ProfileService {
-    async editProfilePassenger(Passenger){
-        const response = await http.put(`/profile/passenger`, Passenger);
-        return response.data;
-    }
+    async getDriversByDestination(destination) {
+        const token = localStorage.getItem('token');  // Ensure the token is correctly retrieved
+        console.log(localStorage.getItem('token'));
 
-    async editProfileDriver(Driver){
-        const response = await http.put(`/profile/passenger`, Driver);
-        return response.data;
+        if (!token) {
+            throw new Error('No token found');
+        }
+        try {
+            const response = await http.get('/drivers/destination', {
+                params: { destination },
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching drivers by destination:", error);
+            throw error;
+        }
     }
-
-    async getProfileDrivers(){
-        const response = await http.get(`/profile/drivers`);
-        return response.data;
-    }
-
-    async getDriverDestination(){
-        const response = await http.get(`/profile/drivers/destination`);
-        return response.data;
-    }
-
-    async getProfileDriverById(id){
-        const response = await http.get(`/profile/driver/:${id}`);
-        return response.data;
-    }
-
 }
