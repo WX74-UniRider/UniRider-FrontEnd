@@ -12,9 +12,11 @@
     "axios": "^1.7.2",
     "i18n": "^0.15.1",
     "primevue": "^3.52.0",
-    "vue": "^3.4.21",
+    "vue": "^3.5.12",
     "vue-i18n": "^9.13.1",
+    "vue-loader": "^17.4.2",
     "vue-router": "^4.3.2",
+    "vue-template-compiler": "^0.1.0",
     "vue2-google-maps": "^0.10.7",
     "vue3-google-map": "^0.20.0",
     "vuetify": "^3.7.2"

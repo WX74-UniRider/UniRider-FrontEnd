@@ -1,8 +1,9 @@
 <script>
-  export default {
-    name: 'AppUniversityCard',
-  }
+export default {
+  name: 'AppUniversityCard',
+}
 </script>
+
 <template>
   <div class="Card-Images">
     <div class="image-up">
@@ -32,45 +33,44 @@
 </template>
 
 <style scoped>
-.Card-Images{
+.Card-Images {
   width: 400px;
   height: 430px;
   margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.image-up img{
-  width: 400px;
-  height: 200px;
+.image-up img {
+  width: 100%;
+  height: auto;
+  max-width: 400px;
 }
 
-.universidades img{
-  justify-items: center;
-  padding-top: 1rem;
+.universidades {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.universidades img {
   width: 50px;
   height: 50px;
+  transition: transform 0.3s ease;
+  margin: 5px;
 }
 
-.first-line img{
-  padding-right: 0.3rem;
+.universidades img:hover {
+  transform: scale(1.1);
 }
 
-.second-line{
-  display: flex;
-  justify-content: center ;
-}
-
-.second-line img{
-  margin-left: 0.3rem;
-  padding-top: 0;
-}
-
-.third-line{
+.first-line, .second-line, .third-line {
   display: flex;
   justify-content: center;
-  padding-top:0.2rem;
 }
 
-.third-line img{
-  padding-top: 0;
+.first-line img, .second-line img, .third-line img {
+  margin: 5px;
 }
 </style>

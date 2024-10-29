@@ -1,17 +1,27 @@
 import axios from "axios";
 
-const http= axios.create({
-    baseURL:'http://localhost:8080/api/v1',
-})
+const http = axios.create({
+    baseURL: 'http://localhost:3000', // Cambiado al puerto 3000 para json-server
+});
 
-export class ReservationService{
-    async addReservation(Reservation){
-        const response = await http.post(`/reservations`, Reservation);
-        return response.data;
+export class ReservationService {
+    async addReservation(reservation) {
+        try {
+            const response = await http.post('/books', reservation); // Cambiado a '/books' según db.json
+            return response.data;
+        } catch (error) {
+            console.error('Error al agregar la reserva:', error);
+            throw error;
+        }
     }
 
-    async deleteReservation(id){
-        const response = await http.delete(`/reservations:/${id}`);
-        return response.data;
+    async deleteReservation(id) {
+        try {
+            const response = await http.delete(`/books/${id}`); // Corregido para que coincida con json-server
+            return response.data;
+        } catch (error) {
+            console.error('Error al eliminar la reserva:', error);
+            throw error;
+        }
     }
 }

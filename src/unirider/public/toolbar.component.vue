@@ -50,20 +50,17 @@ export default {
 <style>
 .toolbar {
   margin-top: 0;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  background-color: #0c2232;
+  background-color: #1c2d3f; /* Un color más suave */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
 }
 
 .nav-links a {
-  text-decoration: none;
-  margin: 0 10px;
-  font-size: 15px;
+  margin: 0 15px;
+  font-size: 16px;
 }
 
 .nav-links a:hover {

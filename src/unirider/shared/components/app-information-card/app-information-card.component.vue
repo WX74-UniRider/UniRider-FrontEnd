@@ -24,13 +24,29 @@ export default {
 
 <style>
 
-.card{
+.card {
   height: 450px;
   width: 400px;
   background-color: white;
-  border-radius: 60px;
-  padding-top: 30px ;
-  margin: 30px 40px;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+}
+
+.infoCard button {
+  width: 150px;
+  height: 35px;
+  background-color: #39BFBF;
+  border: none;
+  margin: 20px auto;
+  display: block; /* Centrar */
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.infoCard button:hover {
+  background-color: #28a3b3;
 }
 
 .card h1{
@@ -48,20 +64,6 @@ export default {
   padding: 0 6px;
   font-size: 13px ;
   font-family: system-ui, -apple-system,BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-.infoCard button{
-  width: 100px;
-  height: 30px;
-  background-color: #39BFBF;
-  border: none;
-  margin-left: 18px;
-  margin-top: 10px;
-  color: white;
-}
-
-.infoCard button:hover{
-  background-color: #72e9e9;
 }
 
 .card img {

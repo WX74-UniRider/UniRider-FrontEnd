@@ -53,16 +53,24 @@ export default {
   font-size: 25px;
 }
 
-.Card-destino{
+.Destinos button {
+  width: 140px;
+  height: 35px;
+  background-color: #39BFBF;
+  border: none;
+  border-radius: 8px;
+  margin: 20px auto;
+  display: block; /* Centrar */
+}
+
+.Card-destino {
   background-color: white;
-  width: 180px;
-  height: 185px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  margin-left: 50px;
-  padding-top: 7px;
-  padding-left: 8px;
-  border-radius: 5px;
+  width: 220px; /* Ancho uniforme */
+  height: 200px;
+  margin: 15px auto;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
 
 .Card-destino h3{
@@ -92,14 +100,6 @@ img[alt="estrella"] {
   height: 10%;
 }
 
-.Destinos button{
-  width: 120px;
-  height: 29px;
-  background-color: #39BFBF;
-  border: none;
-  border-radius: 5px;
-  margin-left: 90px;
-}
 .Destinos button:hover{
   background-color: #72e9e9;
 }

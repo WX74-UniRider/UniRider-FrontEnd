@@ -1,7 +1,7 @@
 // User-books.service.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/v1/reservations';
+const API_URL = 'http://localhost:3000/books';
 
 export const BooksApiService = {
     async createReservation(reservationData) {
@@ -13,7 +13,8 @@ export const BooksApiService = {
             const response = await axios.post(API_URL, reservationData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Incluir el token en el encabezado
+                    // JSON Server no requiere autenticación, puedes omitir el encabezado si es necesario
+                    'Authorization': `Bearer ${token}`
                 }
             });
             return response.data;

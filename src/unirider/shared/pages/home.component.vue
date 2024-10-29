@@ -22,16 +22,19 @@ import ToolbarComponent from "../../public/toolbar.component.vue";
 </template>
 
 <style>
-body{
-  background-color: #3F7AA4;
+body {
+  background-color: #f3f6f9; /* Fondo más claro */
   margin: 0;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
-
-
-.cards{
+.cards {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px; /* Mantiene el espacio entre las tarjetas */
+  flex-wrap: wrap;
+  margin-top: 0; /* Asegura que no haya margen superior */
+  min-height: calc(100vh - 67px);
 }
 
 </style>

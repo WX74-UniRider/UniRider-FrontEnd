@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const http = axios.create({
-    baseURL: 'https://my-json-server.typicode.com/DevUniRider/UniRider-Server',
+    baseURL: 'http://localhost:3000', // Cambia la URL al servidor local de json-server
 });
 
 export class UserApiService {
@@ -10,10 +10,15 @@ export class UserApiService {
             const response = await http.get('/Users', {
                 params: { email, password }
             });
-            return response.data;
+            const user = response.data.find(u => u.email === email && u.password === password);
+            if (user) {
+                return user;
+            } else {
+                throw new Error('Credenciales incorrectas.');
+            }
         } catch (error) {
-            console.error("Error during login:", error);
-            throw error;
+            console.error("Error durante el inicio de sesión:", error);
+            throw error; // Asegúrate de lanzar el error para que sea capturado en login-user.vue
         }
     }
 

@@ -26,6 +26,10 @@ export default {
 
 </template>
 
-<style scoped>
-
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Previene barras de desplazamiento horizontales */
+}
 </style>

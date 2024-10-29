@@ -1,20 +1,17 @@
 import axios from 'axios';
 
 const http = axios.create({
-    baseURL: 'http://localhost:8080/api/v1',
+    baseURL: 'http://localhost:3000', // Cambiado al puerto 3000 para json-server
 });
 
 export class RatingService {
     async addRating(rating) {
-        const token = localStorage.getItem('token'); // Ensure the token is correctly retrieved
-        if (!token) {
-            throw new Error('No token found');
+        try {
+            const response = await http.post('/Qualify', rating); // Cambiado a '/Qualify' según tu db.json
+            return response.data;
+        } catch (error) {
+            console.error('Error al agregar la calificación:', error);
+            throw error;
         }
-        const response = await http.post('/ratings', rating, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        return response.data;
     }
 }
