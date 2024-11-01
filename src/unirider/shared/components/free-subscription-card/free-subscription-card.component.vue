@@ -1,12 +1,6 @@
-<script>
-  export default {
-    name: 'FreeSubscriptionCard',
-  }
-</script>
-
 <template>
-  <div class="card-left">
-    <div class="tittleFree">
+  <div class="card">
+    <div class="header">
       <h3>FREEMIUM</h3>
     </div>
     <div class="price">
@@ -14,9 +8,9 @@
     </div>
     <div class="content">
       <ul>
-        <li>Dos Viajes Por Dia</li>
-        <li>Anuncios incluido</li>
-        <li>Opciones limitados</li>
+        <li>Dos Viajes Por Día</li>
+        <li>Anuncios incluidos</li>
+        <li>Opciones limitadas</li>
       </ul>
       <div class="button-card">
         <button>Ingresar</button>
@@ -26,79 +20,82 @@
 </template>
 
 <style scoped>
-.card-left{
-  width: 210px;
-  height: 300px;
-  padding-left: 0;
+.card {
+  width: 220px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra suave */
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin: 15px; /* Separación entre tarjetas */
 }
 
-.tittleFree{
-  background-color: #FB0A0A;
+.card:hover {
+  transform: translateY(-5px); /* Efecto de elevación */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); /* Sombra más fuerte al hacer hover */
+}
+
+.header {
+  background-color: #f44336; /* Rojo suave */
   color: white;
-  font-family: system-ui, -apple-system,BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  height: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
+  font-family: 'Roboto', sans-serif;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-.tittleFree h3{
+.price {
+  background-color: #4caf50; /* Verde más suave */
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  padding: 10px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.content {
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #fafafa;
+  color: #555;
+}
+
+.content ul {
+  list-style: none;
+  padding: 0;
   margin: 0;
 }
 
-.price{
-  background-color: #308E4E;
-  font-family: system-ui, -apple-system,BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  height: 15%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: 700;
+.content ul li {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.price h3{
-  margin: 0px;
-}
-
-.content{
-  font-family: system-ui, -apple-system,BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: #F8F9FA;
-  height: 50%;
-  padding-top: 15px;
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
-  font-weight: 700;
-  padding-right: 15px;
-}
-
-.content ul{
-  margin: 0;
-  font-size: 13px;
-}
-
-.content ul li{
-  margin-bottom: 1px;
-}
-
-.button-card{
-  margin-top: 30px;
+.button-card {
   display: flex;
   justify-content: center;
+  margin-top: 15px;
 }
 
-.button-card button{
-  background-color: #FB0A0A;
-  border-style: none;
+.button-card button {
+  background-color: #f44336;
   color: white;
-  width: 80px;
-  height: 35px;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
-.button-card button:hover{
-  background-color: #c44a4a;
+.button-card button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
 }
-
 </style>

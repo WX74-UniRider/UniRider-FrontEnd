@@ -1,35 +1,42 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div>
-      <label for="tripId">ID del Viaje:</label>
-      <input type="number" v-model="reservationData.tripId" required />
+  <div class="overlay">
+    <div class="form-container">
+      <form @submit.prevent="submitForm">
+        <div class="form-group">
+          <label for="tripId">ID del Viaje:</label>
+          <input type="number" v-model="reservationData.tripId" required />
+        </div>
+
+        <div class="form-group">
+          <label for="passengerId">ID del Pasajero:</label>
+          <input type="number" v-model="reservationData.passengerId" required />
+        </div>
+
+        <div class="form-group">
+          <label for="driverId">ID del Conductor:</label>
+          <input type="number" v-model="reservationData.driverId" />
+        </div>
+
+        <div class="form-group">
+          <label for="tripStartTime">Fecha y Hora de Inicio del Viaje:</label>
+          <input type="datetime-local" v-model="reservationData.tripStartTime" required />
+        </div>
+
+        <div class="form-group">
+          <label for="destination">Destino:</label>
+          <input type="text" v-model="reservationData.destination" required />
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="submit-button">Crear Reserva</button>
+          <button type="button" @click="cancelForm" class="cancel-button">Cancelar</button>
+        </div>
+      </form>
+
+      <div v-if="successMessage" class="success-message">
+        {{ successMessage }}
+      </div>
     </div>
-
-    <div>
-      <label for="passengerId">ID del Pasajero:</label>
-      <input type="number" v-model="reservationData.passengerId" required />
-    </div>
-
-    <div>
-      <label for="driverId">ID del Conductor:</label>
-      <input type="number" v-model="reservationData.driverId" />
-    </div>
-
-    <div>
-      <label for="tripStartTime">Fecha y Hora de Inicio del Viaje:</label>
-      <input type="datetime-local" v-model="reservationData.tripStartTime" required />
-    </div>
-
-    <div>
-      <label for="destination">Destino:</label>
-      <input type="text" v-model="reservationData.destination" required />
-    </div>
-
-    <button type="submit">Crear Reserva</button>
-  </form>
-
-  <div v-if="successMessage" class="success-message">
-    {{ successMessage }}
   </div>
 </template>
 
@@ -58,6 +65,9 @@ export default {
       } catch (error) {
         console.error('Error creando reserva:', error);
       }
+    },
+    cancelForm() {
+      this.$router.push('/home'); // Redirige a la página de inicio
     }
   }
 };
@@ -78,10 +88,12 @@ export default {
 
 .form-container {
   background: white;
-  padding: 20px;
+  padding: 30px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
 }
 
 .form-group {
@@ -91,16 +103,24 @@ export default {
 label {
   display: block;
   margin-bottom: 5px;
+  font-weight: bold;
 }
 
 input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
 }
 
-button {
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.submit-button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -109,13 +129,27 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.submit-button:hover {
   background-color: #0056b3;
+}
+
+.cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  color: #333;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #bdbdbd;
 }
 
 .success-message {
   margin-top: 20px;
   color: green;
   font-weight: bold;
+  text-align: center;
 }
 </style>

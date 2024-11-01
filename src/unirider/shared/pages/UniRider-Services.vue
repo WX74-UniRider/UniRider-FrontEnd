@@ -36,84 +36,125 @@ import ToolbarComponent from "../../public/toolbar.component.vue";
 </template>
 
 <style>
-.toolbar {
-  margin-top: 30px;
+body{
+  background-color: #3F7AA4;
 }
-h1 {
-  color: black;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 54px;
+.toolbar {
+  width: 100%;
+  background-color: #2C3E50; /* Darker background for a professional look */
+  padding: 15px 0; /* Padding for vertical space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
 
+
+.toolbar-component a {
+  color: #FFFFFF; /* White text for contrast */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0 15px; /* Spacing between links */
+  transition: color 0.3s ease;
+}
+
+.toolbar-component a:hover {
+  color: #1ABC9C; /* Hover color for links */
+}
+
+h1 {
+  color: #333333;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 h2 {
-  color: black;
+  color: #444444;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
+  line-height: 1.6;
+  padding: 0 20px;
+  text-align: center;
 }
 
+h3 {
+  margin-top: 15px;
+  color: #333;
+  font-weight: 600;
+}
 
 .container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 100%;
   background: #2DB3CB;
-  display: flex;
-  flex-direction: column; /* Ajuste para alinear verticalmente */
-  align-items: center; /* Centra horizontalmente */
 }
+
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 80%;
-  margin-top:40px;
+  max-width: 1200px;
+  margin-top: 40px;
 }
 
-
 .texto {
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 10px;
-
-  margin-left: 100px;
-  margin-right: 100px;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .squares {
   display: flex;
-  justify-content: center;
-  margin-top: 70px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  gap: 20px;
 }
 
 .square {
-  width: 220px;
-  height: 220px;
-  background-color: #f0f0f0;
-  margin: 0 120px;
+  width: 200px;
+  height: 200px;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.floating-image-1 {
+.square:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.floating-image-1, .floating-image {
   width: 70%;
-  height: 70%;
+  height: auto;
   object-fit: contain;
 }
-.floating-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-h3{
-  margin-top: 0px;
+
+@media (max-width: 768px) {
+  .squares {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .square {
+    margin: 10px 0;
+    width: 180px;
+    height: 180px;
+  }
 }
 </style>
