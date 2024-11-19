@@ -38,7 +38,7 @@ export default {
         <img src="/src/assets/estrella.png" alt="estrella">
       </div>
     </div>
-    <button @click="goToReservations">Crear una  Reserva</button>
+    <pv-button @click="goToReservations">Crear una  Reserva</pv-button>
   </div>
 </template>
 

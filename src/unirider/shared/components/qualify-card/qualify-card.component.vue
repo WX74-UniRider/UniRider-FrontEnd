@@ -4,7 +4,7 @@ import {RatingService} from "../../../../../public/server/rating.service.js";
 
 export default {
   name: "qualify-card",
-  components: { ToolbarComponent },
+  components: {ToolbarComponent },
   data() {
     return {
       selectedButtonSection1: null,
@@ -98,7 +98,7 @@ export default {
       </div>
       <div class="section">
         <div class="block">
-          <h3>Puntualidad</h3>
+          <h3 class="text-white">Puntualidad</h3>
           <button
               v-for="button in ['A tiempo', 'Retrasado', 'Tarde']"
               :key="button"
@@ -108,7 +108,7 @@ export default {
           </button>
         </div>
         <div class="block">
-          <h3>Conducción</h3>
+          <h3 class="text-white">Conducción</h3>
           <button
               v-for="button in ['Segura', 'Regular', 'Peligrosa']"
               :key="button"
@@ -119,11 +119,11 @@ export default {
         </div>
       </div>
       <div class="comments-section">
-        <h3>Comentarios</h3>
-        <textarea v-model="comment" @input="limitWords"></textarea>
+        <h3 class="text-white">Comentarios</h3>
+        <textarea class="text-black" v-model="comment" @input="limitWords"></textarea>
       </div>
       <div class="submit-section">
-        <button @click="submitComment">Enviar comentario</button>
+        <pv-button @click="submitComment">Enviar comentario</pv-button>
         <div v-if="showThankYouMessage" class="thank-you-message">Gracias por tu comentario</div>
       </div>
     </div>

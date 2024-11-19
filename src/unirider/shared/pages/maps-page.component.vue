@@ -8,11 +8,7 @@ import {ref} from "vue";
 const showOtherPaymentMethod = ref(false);
 
 const handleRequestTrip = (selectedOption) => {
-  if (selectedOption === 'Otro Metodo'){
-    showOtherPaymentMethod.value = true;
-  }else {
-    showOtherPaymentMethod.value = false;
-  }
+  showOtherPaymentMethod.value = selectedOption === 'Otro Metodo';
 }
 </script>
 <template>

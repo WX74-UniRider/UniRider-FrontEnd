@@ -16,7 +16,7 @@ export default {
     <div class="infoCard">
       <h3>Ofrecemos La Oportunidad De Viajar De Manera Eficiente A Un Precio Accesible.</h3>
       <h3>Dile Adiós A Las Largas Esperas Y A Los Viajes Estresantes.</h3>
-      <Button>Contactanos</Button>
+      <pv-button>Contactanos</pv-button>
     </div>
     <img :src="logoUniRiderImage" alt="logoUniRider"/>
   </div>

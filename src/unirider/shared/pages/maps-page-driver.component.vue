@@ -112,14 +112,16 @@ const createTrip = async (tripData) => {
             class="mat-card driver-card"
             @click="selectDriver(driver)"
         >
-          <mat-card>
-            <mat-card-title>{{ driver.user.firstName }} {{ driver.user.lastName }}</mat-card-title>
-            <mat-card-content>
+          <pv-card>
+            <template #header>
+              <h3>{{ driver.user.firstName }} {{ driver.user.lastName }}</h3>
+            </template>
+            <template #content>
               <p>Destino: {{ driver.destino }}</p>
               <p>Vehículo: {{ driver.vehicleModel }}</p>
               <p>Placa: {{ driver.vehiclePlate }}</p>
-            </mat-card-content>
-          </mat-card>
+            </template>
+          </pv-card>
         </div>
       </div>
 
