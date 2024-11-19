@@ -1,7 +1,7 @@
 // User-books.service.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/books';
+const API_URL = 'http://localhost:8080/api/v1/reservations';
 
 export const BooksApiService = {
     async createReservation(reservationData) {

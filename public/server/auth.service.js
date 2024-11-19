@@ -1,22 +1,18 @@
 import axios from 'axios';
 
-const http = axios.create({
-    baseURL: 'http://localhost:3000', // Cambia al puerto 3000 para usar json-server
-});
+const http= axios.create({
+    baseURL:'http://localhost:8080/api/v1',
+})
+export class AuthService{
 
-export class AuthService {
 
     async authenticate(email, password) {
         try {
-            const response = await http.get('/Users', {
-                params: { email, password }
+            const response = await http.post(`/authentication/sign-in`, {
+                username: email,
+                password: password
             });
-            const user = response.data.find(u => u.email === email && u.password === password);
-            if (user) {
-                return user;
-            } else {
-                throw new Error('Credenciales incorrectas.');
-            }
+            return response.data;
         } catch (error) {
             console.error('Error en la autenticación:', error);
             throw error;
@@ -24,12 +20,12 @@ export class AuthService {
     }
 
     async registerPassenger(Passenger) {
-        const response = await http.post('/Users', Passenger); // Ajustado para json-server
+        const response = await http.post('/authentication/sign-up/passenger', Passenger);
         return response.data;
     }
 
     async registerDriver(Driver) {
-        const response = await http.post('/Users', Driver); // Ajustado para json-server
+        const response = await http.post('/authentication/sign-up/driver', Driver);
         return response.data;
     }
 }

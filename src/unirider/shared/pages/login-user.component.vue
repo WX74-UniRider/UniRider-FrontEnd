@@ -66,8 +66,9 @@ export default {
         const user = await this.authService.authenticate(this.email, this.password);
         console.log("Respuesta de autenticación:", user);
 
-        if (user && user.id) {
+        if (user && user.token) {
           localStorage.setItem('userId', user.id);
+          localStorage.setItem('token', user.token);
           this.$router.push('/home');
         } else {
           this.alertMessage = "Credenciales incorrectas.";
