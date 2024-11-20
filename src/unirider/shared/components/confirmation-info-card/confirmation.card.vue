@@ -22,9 +22,15 @@ export default {
 <template>
   <div class="travel-info-card">
     <table>
+      <!-- Sección de encabezado -->
+      <thead>
       <tr>
         <th colspan="2"><h2>Información del viaje</h2></th>
       </tr>
+      </thead>
+
+      <!-- Sección del cuerpo -->
+      <tbody>
       <tr>
         <td>Distancia:</td>
         <td>{{ distance }}</td>
@@ -54,6 +60,7 @@ export default {
         <td>Precio:</td>
         <td>{{ price }}</td>
       </tr>
+      </tbody>
     </table>
   </div>
 </template>
