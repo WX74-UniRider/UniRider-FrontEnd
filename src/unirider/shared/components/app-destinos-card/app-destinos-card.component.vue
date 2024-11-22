@@ -7,11 +7,16 @@ export default {
     const router = useRouter();
 
     const goToReservations = () => {
-      router.push('/reservations');
+      router.push('/reservations'); // Ruta para crear una reserva
+    };
+
+    const goToCreateTrip = () => {
+      router.push('/create-trip'); // Ruta para crear un viaje
     };
 
     return {
       goToReservations,
+      goToCreateTrip,
     };
   },
 };
@@ -38,28 +43,30 @@ export default {
         <img src="/src/assets/estrella.png" alt="estrella">
       </div>
     </div>
-    <pv-button @click="goToReservations">Crear una  Reserva</pv-button>
+    <div class="buttons">
+      <pv-button @click="goToReservations">Crear una Reserva</pv-button>
+      <pv-button @click="goToCreateTrip">Crear un Viaje</pv-button>
+    </div>
   </div>
 </template>
 
 <style>
-
-.Destinos{
+.Destinos {
   width: 300px;
-  height: 515px;
+  height: 550px; /* Ajuste de altura para acomodar ambos botones */
 }
 
-.Destinos h1{
+.Destinos h1 {
   font-size: 25px;
 }
 
 .Destinos button {
   width: 140px;
   height: 35px;
-  background-color: #39BFBF;
+  background-color: #39bfbf;
   border: none;
   border-radius: 8px;
-  margin: 20px auto;
+  margin: 10px auto;
   display: block; /* Centrar */
 }
 
@@ -73,25 +80,25 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
 
-.Card-destino h3{
+.Card-destino h3 {
   margin-top: 3px;
   margin-bottom: 7px;
   margin-left: 0px;
   margin-right: 0px;
 }
 
-.Card-destino img{
+.Card-destino img {
   width: 90%;
   height: 53%;
   margin-left: 5px;
 }
 
-.Card-destino p{
-  color: #ABABAB;
+.Card-destino p {
+  color: #ababab;
   margin: 0;
 }
 
-.rating{
+.rating {
   display: flex;
 }
 
@@ -100,8 +107,13 @@ img[alt="estrella"] {
   height: 10%;
 }
 
-.Destinos button:hover{
+.Destinos button:hover {
   background-color: #72e9e9;
 }
 
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
 </style>

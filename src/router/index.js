@@ -15,6 +15,7 @@ import ChatUser from "../unirider/shared/pages/chat-user.vue";
 import NewCard from "../unirider/shared/pages/add-a-card.vue";
 import ProfileUser from "../unirider/shared/pages/Profile-user.component.vue";
 import MapsPageDriver from "../unirider/shared/pages/maps-page-driver.component.vue"
+import CreateTrip from "../unirider/shared/pages/create-trip.component.vue";
 
 import AppBookingFastForm from '../unirider/shared/components/app-booking-fast-form/app-booking-fast-form.component.vue';
 import BuscarMaps from '../unirider/shared/pages/buscarMaps.vue';
@@ -45,7 +46,9 @@ const routes = [
     { path: '/OtherMethodpayment', component: OtherPaymentMethodComponent},
     {path: '/new-card', component: NewCard },
     {path: '/profile', component: ProfileUser },
-    {path: '/reservations', component: AppBookingFastForm}
+    {path: '/reservations', component: AppBookingFastForm},
+    { path: '/create-trip', name: 'CreateTrip', component: CreateTrip }
+
 
 ]
 
