@@ -43,8 +43,13 @@ export default {
         <img src="/src/assets/estrella.png" alt="estrella">
       </div>
     </div>
-    <div class="buttons">
-      <pv-button @click="goToReservations">Crear una Reserva</pv-button>
+    <div>
+      <pv-button
+          @click="goToReservations"
+          class="!px-6 !py-2 !text-white  !rounded-lg  w-auto "
+      >
+        Crear una Reserva
+      </pv-button>
       <pv-button @click="goToCreateTrip">Crear un Viaje</pv-button>
     </div>
   </div>

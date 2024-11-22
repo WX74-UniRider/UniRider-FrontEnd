@@ -28,7 +28,7 @@ const routes = [
     { path: '/home', name: 'Home', component: Home },
     { path: '/main', name:'main', component: ToolbarComponent },
     { path: '/maps', component: MapsPageDriver},
-    { path: '/reservation-passenger', component: ReservationPassenger },
+    { path: '/reservations', component: ReservationPassenger },
     // otras rutas...
     {
         path: '/qualify/:tripId/:driverId',
@@ -48,7 +48,7 @@ const routes = [
     { path: '/OtherMethodpayment', component: OtherPaymentMethodComponent},
     {path: '/new-card', component: NewCard },
     {path: '/profile', component: ProfileUser },
-    {path: '/reservations', component: AppBookingFastForm},
+    {path: '/reservation-passenger\'', component: AppBookingFastForm},
     { path: '/create-trip', name: 'CreateTrip', component: CreateTrip }
 
 
