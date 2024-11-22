@@ -1,8 +1,8 @@
 <script setup>
-import {ref} from 'vue';
+import { ref } from 'vue';
 import axios from 'axios'; // Importa axios
 import ToolbarComponent from "../../public/toolbar.component.vue";
-import {ProfileService} from "../../../../public/server/profile.service.js";
+import { ProfileService } from "../../../../public/server/profile.service.js";
 
 const searchQuery = ref('');
 const drivers = ref([]);
@@ -10,18 +10,98 @@ const selectedDriver = ref(null);
 const showOtherPaymentMethod = ref(false);
 const tripPrices = ref([]);
 const selectedPrice = ref(null); // Nueva variable para la tarifa seleccionada
-const selectedUniversity = ref(null); // Nueva variable para almacenar la universidad seleccionada
+const selectedCampus = ref(null);
 const universities = ref([
-  { name: 'UPC', code: 'UPC' },
-  { name: 'PUCP', code: 'PUCP' },
-  { name: 'UTP', code: 'UTP' }
+  {
+    name: 'Universidad Nacional Mayor de San Marcos (UNMSM)',
+    code: 'UNMSM',
+    campuses: [
+      { name: 'Sede Central', code: 'UNMSM-Central' },
+    ],
+  },
+  {
+    name: 'Pontificia Universidad Católica del Perú (PUCP)',
+    code: 'PUCP',
+    campuses: [
+      { name: 'Sede Principal', code: 'PUCP-Principal' },
+      { name: 'Sede Facultad de Derecho', code: 'PUCP-Derecho' },
+    ],
+  },
+  {
+    name: 'Universidad Peruana Cayetano Heredia (UPCH)',
+    code: 'UPCH',
+    campuses: [
+      { name: 'Sede Principal', code: 'UPCH-Principal' },
+      { name: 'Sede Facultad de Medicina', code: 'UPCH-Medicina' },
+      { name: 'Sede Facultad de Ciencias de la Salud', code: 'UPCH-CienciasSalud' },
+    ],
+  },
+  {
+    name: 'Universidad de Lima (UL)',
+    code: 'UL',
+    campuses: [
+      { name: 'Sede Principal', code: 'UL-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad Peruana de Ciencias Aplicadas (UPC)',
+    code: 'UPC',
+    campuses: [
+      { name: 'Sede San Isidro', code: 'UPC-SanIsidro' },
+      { name: 'Sede San Miguel', code: 'UPC-SanMiguel' },
+      { name: 'Sede Villa', code: 'UPC-Villa' },
+      { name: 'Sede Monterico', code: 'UPC-Monterico' },
+    ],
+  },
+  {
+    name: 'Universidad Nacional de Ingeniería (UNI)',
+    code: 'UNI',
+    campuses: [
+      { name: 'Sede Principal', code: 'UNI-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad de San Martín de Porres (USMP)',
+    code: 'USMP',
+    campuses: [
+      { name: 'Sede Central', code: 'USMP-Central' },
+      { name: 'Sede Surco', code: 'USMP-Surco' },
+      { name: 'Sede de Medicina', code: 'USMP-Medicina' },
+      { name: 'Sede de Miraflores', code: 'USMP-Miraflores' },
+    ],
+  },
+  {
+    name: 'Universidad Ricardo Palma (URP)',
+    code: 'URP',
+    campuses: [
+      { name: 'Sede Principal', code: 'URP-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad de Ciencias y Humanidades (UCH)',
+    code: 'UCH',
+    campuses: [
+      { name: 'Sede Principal', code: 'UCH-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad Tecnológica del Perú (UTP)',
+    code: 'UTP',
+    campuses: [
+      { name: 'Sede San Isidro', code: 'UTP-SanIsidro' },
+      { name: 'Sede Jesús María', code: 'UTP-JesusMaria' },
+      { name: 'Sede Centro de Lima', code: 'UTP-CentroLima' },
+      { name: 'Sede La Molina', code: 'UTP-LaMolina' },
+      { name: 'Sede Callao', code: 'UTP-Callao' },
+    ],
+  },
 ]);
 
 const generateRandomTripPrices = () => {
   const prices = [
-    {id: 1, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/'},
-    {id: 2, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/'},
-    {id: 3, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/'}
+    { id: 1, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/' },
+    { id: 2, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/' },
+    { id: 3, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/' }
   ];
   return prices;
 };
@@ -93,6 +173,14 @@ const createTrip = async (tripData) => {
   return response.data;
 };
 
+const handleCampusSelect = () => {
+  if (selectedCampus.value) {
+    // Actualizamos el searchQuery solo con el código de la sede seleccionada
+    searchQuery.value = selectedCampus.value.code;
+    handleSearchClick(); // Ejecuta la búsqueda
+  }
+};
+
 </script>
 
 <template>
@@ -118,13 +206,16 @@ const createTrip = async (tripData) => {
         </div>
 
         <!-- Select para elegir universidad -->
-        <pv-select
-            v-model="selectedUniversity"
+        <pv-cascade-select
+            v-model="selectedCampus"
             :options="universities"
-            showClear
             optionLabel="name"
-            placeholder="Seleccione una universidad"
-            class="w-full sm:w-64 mb-6 text-lg"
+            optionGroupLabel="name"
+            :optionGroupChildren="['campuses']"
+            showClear
+            placeholder="Seleccione una universidad y su sede"
+            class="!w-96 sm:w-64 mb-6 text-lg"
+            @change="handleCampusSelect"
         />
 
         <div v-if="drivers.length === 0" class="text-gray-600 text-lg">

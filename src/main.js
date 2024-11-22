@@ -18,6 +18,8 @@ import Card from 'primevue/card';
 import Select from 'primevue/select';
 import Password from 'primevue/password';
 import Paginator from 'primevue/paginator';
+import CascadeSelect from 'primevue/cascadeselect';
+
 
 // Google Maps
 import { GoogleMap } from 'vue3-google-map';
@@ -45,7 +47,8 @@ app.component('pv-input-text', InputText)
     .component('pv-card', Card)
     .component('pv-password', Password)
     .component('pv-select', Select)
-    .component('pv-paginator', Paginator);
+    .component('pv-paginator', Paginator)
+    .component('pv-cascade-select', CascadeSelect);
 
 // Montar la aplicación
 app.mount('#app');
