@@ -1,23 +1,9 @@
 <script>
-import { useRouter } from 'vue-router';
 
 export default {
   name: 'AppDestinosCard',
   setup() {
-    const router = useRouter();
 
-    const goToReservations = () => {
-      router.push('/reservations'); // Ruta para crear una reserva
-    };
-
-    const goToCreateTrip = () => {
-      router.push('/create-trip'); // Ruta para crear un viaje
-    };
-
-    return {
-      goToReservations,
-      goToCreateTrip,
-    };
   },
 };
 </script>
@@ -42,15 +28,6 @@ export default {
         <p>4.5</p>
         <img src="/src/assets/estrella.png" alt="estrella">
       </div>
-    </div>
-    <div>
-      <pv-button
-          @click="goToReservations"
-          class="!px-6 !py-2 !text-white  !rounded-lg  w-auto "
-      >
-        Crear una Reserva
-      </pv-button>
-      <pv-button @click="goToCreateTrip">Crear un Viaje</pv-button>
     </div>
   </div>
 </template>

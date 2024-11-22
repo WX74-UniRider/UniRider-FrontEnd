@@ -15,15 +15,13 @@
       </a>
 
       <a>
-        <router-link to="/reservations" class="nav-link">Crear Reserva</router-link>
+        <router-link to="/create-trip" class="nav-link">Crear Viaje</router-link>
       </a>
 
-      <a @click.prevent="goToMap" class="nav-link">Buscar viaje</a>
-      
-      <a>
-        <router-link to="/record" class="nav-link">Historial</router-link>
-      </a>
+      <a  class="nav-link">Mis viajes</a>
+
       <a @click.prevent="logout" class="nav-link">Cerrar Sesión</a>
+
     </div>
     <img :src="userPhoto" alt="Foto de perfil" class="profile-photo" v-if="userPhoto"/>
   </nav>
@@ -31,7 +29,7 @@
 
 <script>
 export default {
-  name: "toolbar-component",
+  name: "toolbar-driver-component",
   data() {
     return {
       userPhoto: 'src/assets/FotoPerfil.png',
@@ -39,9 +37,6 @@ export default {
     };
   },
   methods: {
-    goToMap() {
-      this.$router.push('/maps');
-    },
     logout() {
       localStorage.clear();
       this.$router.push('/');

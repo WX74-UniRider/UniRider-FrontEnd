@@ -1,22 +1,27 @@
 <script setup>
-
 import AppUniversityCard from "../components/app-university-card/app-university-card.component.vue";
 import AppInformationCard from "../components/app-information-card/app-information-card.component.vue";
 import AppDestinosCard from "../components/app-destinos-card/app-destinos-card.component.vue";
 import ToolbarComponent from "../../public/toolbar.component.vue";
+import ToolbarDriverComponent from "../../public/toolbar-driver.component.vue";
+
+// Obtener el rol desde el localStorage
+const userRole = localStorage.getItem("role");
 </script>
 
 <template>
-  <toolbar-component/>
+  <!-- Mostrar la toolbar según el rol -->
+  <toolbar-component v-if="userRole === 'ROLE_PASAJERO'" />
+  <toolbar-driver-component v-else-if="userRole === 'ROLE_CONDUCTOR'" />
   <div class="cards">
     <div>
-      <AppInformationCard/>
+      <AppInformationCard />
     </div>
     <div>
-      <AppUniversityCard/>
+      <AppUniversityCard />
     </div>
     <div>
-      <AppDestinosCard/>
+      <AppDestinosCard />
     </div>
   </div>
 </template>
@@ -36,5 +41,4 @@ body {
   margin-top: 0; /* Asegura que no haya margen superior */
   min-height: calc(100vh - 67px);
 }
-
 </style>
