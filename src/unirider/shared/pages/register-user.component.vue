@@ -51,7 +51,8 @@ export default {
           await this.authService.registerPassenger(passenger);
         }
 
-        this.$router.push('/verify');
+        // Redirigir a la página de verificación con el nombre y rol
+        this.$router.push({ path: '/verify', query: { nombre: this.firstName, rol: this.rol } });
       } catch (error) {
         console.error("Error durante el registro:", error);
         alert("Error durante el registro. Por favor, inténtelo de nuevo.");
@@ -72,28 +73,35 @@ export default {
       <form @submit.prevent="onSubmit">
         <div>
           <label class="label-register" for="firstName">Nombre</label>
-          <input class="inputs-register" type="text" id="firstName" placeholder="Ingrese su nombre" v-model="firstName" required />
+          <input class="inputs-register" type="text" id="firstName" placeholder="Ingrese su nombre" v-model="firstName"
+                 required/>
         </div>
         <div>
           <label class="label-register" for="lastName">Apellido</label>
-          <input class="inputs-register" type="text" id="lastName" placeholder="Ingrese su apellido" v-model="lastName" required />
+          <input class="inputs-register" type="text" id="lastName" placeholder="Ingrese su apellido" v-model="lastName"
+                 required/>
         </div>
         <div>
           <label class="label-register" for="email">Correo</label>
-          <input class="inputs-register" type="email" id="email" placeholder="Ingrese un correo" v-model="email" required />
+          <input class="inputs-register" type="email" id="email" placeholder="Ingrese un correo" v-model="email"
+                 required/>
         </div>
         <div>
           <label class="label-register" for="password">Contraseña</label>
-          <input class="inputs-register" type="password" id="password" placeholder="Ingrese una contraseña" v-model="password" required />
+          <input class="inputs-register" type="password" id="password" placeholder="Ingrese una contraseña"
+                 v-model="password" required/>
         </div>
         <!-- Mostrar el campo de VehiclePlate solo si el plan seleccionado es 'conductor' -->
         <div v-if="rol === 'conductor'">
           <label class="label-register" for="vehiclePlate">Placa del Vehículo</label>
-          <input class="inputs-register" type="text" id="vehiclePlate" placeholder="Ingrese la placa de su vehículo" v-model="vehiclePlate" required />
+          <input class="inputs-register" type="text" id="vehiclePlate" placeholder="Ingrese la placa de su vehículo"
+                 v-model="vehiclePlate" required/>
         </div>
         <div class="plan-selection">
-          <button type="button" @click="selectPlan('pasajero')" :class="{ selected: rol === 'pasajero' }">Pasajero</button>
-          <button type="button" @click="selectPlan('conductor')" :class="{ selected: rol === 'conductor' }">Conductor</button>
+          <button type="button" @click="selectPlan('pasajero')" :class="{ selected: rol === 'pasajero' }">Pasajero
+          </button>
+          <button type="button" @click="selectPlan('conductor')" :class="{ selected: rol === 'conductor' }">Conductor
+          </button>
         </div>
         <div class="checkbox-group">
           <input type="checkbox" id="terms" required>
@@ -232,4 +240,3 @@ export default {
   }
 }
 </style>
-

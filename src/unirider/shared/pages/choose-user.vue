@@ -1,15 +1,17 @@
 <script>
 export default {
   name: 'ChooseUser',
-  props: {
-    nombre: String
+  data() {
+    return {
+      nombre: this.$route.query.nombre,
+      rol: this.$route.query.rol
+    };
   },
   methods: {
     handleFileChange(index) {
-      const fileInput = this.$refs[`fileInput${index}`]; // Referencia al input de archivo correspondiente
-      const file = fileInput.files[0]; // Archivo seleccionado por el usuario
+      const fileInput = this.$refs[`fileInput${index}`];
+      const file = fileInput.files[0];
       if (file) {
-        // Aquí puedes procesar el archivo como lo desees (por ejemplo, mostrar una vista previa)
         console.log(`Archivo ${index}:`, file);
       } else {
         console.log(`No se seleccionó ningún archivo para el índice ${index}`);
@@ -28,24 +30,28 @@ export default {
     <div class="header">
       <div>
         <img src="../../../img/logoUniRider.png" class="logoo">
-        <h1 class="title">Bienvenidos a UniRider nuevo socio: {{nombre}}</h1>
+        <h1 class="title">Bienvenidos a UniRider nuevo socio: {{ nombre }}</h1>
         <h2>Solo falta ingresar sus datos. Siga las indicaciones y podrá comenzar.</h2>
       </div>
     </div>
-    <div class="image-container">
-      <h3>Licencia de conducir</h3>
-      <img src="../../../assets/licencia.png" class="image-preview">
-      <input type="file" @change="handleFileChange(1)" accept="image/*">
+    <div v-if="rol === 'conductor'">
+      <div class="image-container">
+        <h3>Licencia de conducir</h3>
+        <img src="../../../assets/licencia.png" class="image-preview">
+        <input type="file" @change="handleFileChange(1)" accept="image/*" ref="fileInput1">
+      </div>
+      <div class="image-container">
+        <h3>Seguro vehicular</h3>
+        <img src="../../../assets/soat.jpg" class="image-preview">
+        <input type="file" @change="handleFileChange(2)" accept="image/*" ref="fileInput2">
+      </div>
     </div>
-    <div class="image-container">
-      <h3>Seguro vehicular</h3>
-      <img src="../../../assets/soat.jpg" class="image-preview">
-      <input type="file" @change="handleFileChange(2)" accept="image/*"> <!-- Segundo archivo -->
-    </div>
-    <div class="image-container">
-      <h3>Carnet universitario</h3>
-      <img src="../../../assets/carnet.png" class="image-preview">
-      <input type="file" @change="handleFileChange(3)" accept="image/*"> <!-- Tercer archivo -->
+    <div v-else-if="rol === 'pasajero'">
+      <div class="image-container">
+        <h3>Carnet universitario</h3>
+        <img src="../../../assets/carnet.png" class="image-preview">
+        <input type="file" @change="handleFileChange(3)" accept="image/*" ref="fileInput3">
+      </div>
     </div>
     <div>
       <h2 class="content">Seleccionar los archivos indicados</h2>
@@ -104,6 +110,7 @@ export default {
 .btn-salir:hover {
   background-color: #228b9d; /* Color de fondo en hover */
 }
+
 .header {
   background-color: #FFC736; /* Color de fondo de la franja */
   width: 100%; /* Ancho completo */
