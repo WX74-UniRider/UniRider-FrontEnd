@@ -2,10 +2,9 @@
 <template>
   <toolbar-driver-component/>
   <div class="flex justify-center items-center !min-h-screen bg-blue-100">
-    <!-- Contenedor del Formulario -->
     <div class="!w-full !max-w-2xl !bg-white !p-6 !rounded-lg !shadow-lg">
       <h1 class="!text-xl !font-semibold !text-center !text-teal-700 !mb-6">Crear Viaje</h1>
-      <form @submit.prevent="createTrip" class="!flex !flex-col !gap-4">
+      <form @submit.prevent class="!flex !flex-col !gap-4">
         <div>
           <label for="destination" class="!block !text-gray-600 !text-sm">Destino:</label>
           <pv-input-text
@@ -18,9 +17,7 @@
           />
         </div>
         <div>
-          <label class="!block !text-gray-600 !text-sm">
-            Seleccionar Universidad y Sede:
-          </label>
+          <label class="!block !text-gray-600 !text-sm">Seleccionar Universidad y Sede:</label>
           <pv-cascade-select
               v-model="selectedCampus"
               :options="universities"
@@ -66,14 +63,15 @@
         </div>
         <div class="!flex !gap-4">
           <pv-button
-              type="submit"
+              type="button"
+              @click="createTrip('PENDING')"
               class="!w-full !bg-gradient-to-r !from-teal-400 !to-teal-600 !hover:from-teal-500 !hover:to-teal-700 !text-white !py-2 !rounded-lg !text-base !font-semibold !shadow-lg !hover:shadow-xl !transition-all !duration-300 !ease-in-out !transform !hover:scale-105"
           >
             Crear Viaje
           </pv-button>
           <pv-button
               type="button"
-              @click="addToFrequentTrips"
+              @click="createTrip('FREQUENT')"
               class="!w-full !bg-gradient-to-r !from-purple-400 !to-purple-600 !hover:from-purple-500 !hover:to-purple-700 !text-white !py-2 !rounded-lg !text-base !font-semibold !shadow-lg !hover:shadow-xl !transition-all !duration-300 !ease-in-out !transform !hover:scale-105"
           >
             Crear Viaje Frecuente
@@ -81,7 +79,7 @@
         </div>
       </form>
 
-      <!-- Viajes Frecuentes -->
+
       <div v-if="frequentTrips.length > 0" class="!mt-6">
         <h2 class="!text-lg !font-semibold !text-teal-700 !mb-4 !text-center">Viajes Frecuentes</h2>
         <div class="!h-40 !overflow-y-auto !border !border-gray-300 !rounded-md !p-2">
@@ -94,24 +92,28 @@
             >
               <p class="!text-teal-700 !font-semibold !text-lg">{{ trip.destination }}</p>
               <p class="!text-gray-700 !text-base">Precio: ${{ trip.price }}</p>
-              <p class="!text-gray-600 !text-sm">{{ trip.tripDate.label }} - {{ trip.tripTime }}</p>
+              <p class="!text-gray-600 !text-sm">{{ trip.tripDate }} - {{ trip.tripTime }}</p>
             </li>
           </ul>
         </div>
-        <!-- Modal -->
-        <div
-            v-if="showModal"
-            class="!fixed !inset-0 !bg-black !bg-opacity-50 !flex !justify-center !items-center !z-50"
-        >
-          <div class="!bg-white !p-6 !rounded-lg !shadow-lg !max-w-sm !w-full">
-            <h2 class="!text-xl !font-semibold !text-center !text-teal-700 !mb-4">{{ modalMessage }}</h2>
-            <pv-button
-                @click="closeModal"
-                class="!w-full !bg-gradient-to-r !from-teal-400 !to-teal-600 !hover:from-teal-500 !hover:to-teal-700 !text-white !py-2 !rounded-lg !text-base !font-semibold !shadow-md !hover:shadow-lg !transition-transform !duration-300 !ease-in-out !transform !hover:scale-105"
-            >
-              Cerrar
-            </pv-button>
-          </div>
+      </div>
+
+
+
+
+      <!-- Modal -->
+      <div
+          v-if="showModal"
+          class="!fixed !inset-0 !bg-black !bg-opacity-50 !flex !justify-center !items-center !z-50"
+      >
+        <div class="!bg-white !p-6 !rounded-lg !shadow-lg !max-w-sm !w-full">
+          <h2 class="!text-xl !font-semibold !text-center !text-teal-700 !mb-4">{{ modalMessage }}</h2>
+          <pv-button
+              @click="closeModal"
+              class="!w-full !bg-gradient-to-r !from-teal-400 !to-teal-600 !hover:from-teal-500 !hover:to-teal-700 !text-white !py-2 !rounded-lg !text-base !font-semibold !shadow-md !hover:shadow-lg !transition-transform !duration-300 !ease-in-out !transform !hover:scale-105"
+          >
+            Cerrar
+          </pv-button>
         </div>
       </div>
     </div>
@@ -120,15 +122,18 @@
 
 <script setup>
 import { ref } from "vue";
+import { onMounted } from 'vue';
 import { useRouter } from "vue-router";
 import ToolbarDriverComponent from "../../public/toolbar-driver.component.vue";
+import { TripService } from "../../../../public/server/trip.service.ts";
+
 const destination = ref("");
 const price = ref("");
 const tripDate = ref("");
 const tripTime = ref("");
-const frequentTrips = ref([]);
 const showModal = ref(false);
 const modalMessage = ref("");
+const frequentTrips = ref([]);
 const userId = ref(localStorage.getItem("userId")); // Obtener userId del local storage
 const router = useRouter();
 const selectedCampus = ref(null);
@@ -226,28 +231,63 @@ const weekdays = [
   { label: "Sábado", value: "Sábado" },
   { label: "Domingo", value: "Domingo" },
 ];
+
+onMounted(async () => {
+  try {
+    const trips = await TripService.getFrequentTrips();
+    frequentTrips.value = trips.map(trip => ({
+      destination: trip.destination,
+      price: trip.price,
+      tripDate: trip.tripDate, // Asegúrate de formatear si es necesario
+      tripTime: trip.tripTime  // Asegúrate de formatear si es necesario
+    }));
+  } catch (error) {
+    console.error('Error cargando viajes frecuentes:', error);
+  }
+});
 // Crear viaje
-const createTrip = () => {
+const createTrip = async (status) => {
   if (!userId.value) {
     alert("Error: No se encontró el ID de usuario en el local storage.");
     return;
   }
+
+  // Validar fecha y hora
+  if (!tripDate.value || !tripTime.value) {
+    alert("Por favor, ingresa una fecha y hora válidas.");
+    return;
+  }
+
   const newTrip = {
     destination: destination.value,
-    price: price.value,
-    tripDate: tripDate.value,
-    tripTime: tripTime.value,
-    userId: userId.value,
+    driverId: userId.value,
+    status, // Estado dinámico basado en el botón
+    price: parseFloat(price.value),
+    departureTime: `${tripDate.value}T${tripTime.value}:00`
   };
-  console.log("Viaje creado:", newTrip);
-  modalMessage.value = "Viaje creado exitosamente";
-  showModal.value = true;
-  setTimeout(() => {
-    showModal.value = false;
-    router.push("/home");
-  }, 3000);
+
+  try {
+    await TripService.createTrip(newTrip); // Llama al servicio para crear el viaje
+    modalMessage.value = status === "PENDING"
+        ? "Viaje creado exitosamente"
+        : "Viaje frecuente creado exitosamente";
+    showModal.value = true;
+    setTimeout(() => {
+      showModal.value = false;
+      router.push("/home");
+    }, 3000);
+  } catch (error) {
+    alert("Error al crear el viaje. Revisa la consola para más detalles.");
+    console.error(error);
+  }
 };
-// Crear viaje frecuente
+
+// Actualiza el destino cuando se selecciona una universidad/sede
+const updateDestination = () => {
+  if (selectedCampus.value) {
+    destination.value = selectedCampus.value.code;
+  }
+};
 const addToFrequentTrips = () => {
   if (destination.value && price.value && tripDate.value && tripTime.value) {
     frequentTrips.value.push({
@@ -268,16 +308,11 @@ const fillFormWithFrequentTrip = (trip) => {
   price.value = trip.price;
   tripDate.value = trip.tripDate;
   tripTime.value = trip.tripTime;
+
 };
 // Cerrar el modal
 const closeModal = () => {
   showModal.value = false;
-};
-
-const updateDestination = () => {
-  if (selectedCampus.value) {
-    destination.value = selectedCampus.value.code;
-  }
 };
 </script>
 <style>
