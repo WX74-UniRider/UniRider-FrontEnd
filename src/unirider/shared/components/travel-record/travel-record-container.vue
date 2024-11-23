@@ -17,45 +17,68 @@ export default {
 </script>
 <template>
   <div>
-  </div>
-  <div>
-    <div class="card-container">
-      <div class="travel-record-card">
-        <table>
-          <tr>
-          </tr>
-          <tr>
-            <td><img src="/FotoPerfil.png" alt="imagen del usuario"  style="max-width: 200px; max-width: 50%; padding: 0px;"></td>
-            <td class="background-blue"><strong>Calificacion:</strong>
-              <span v-for="i in estrellas">
-              <img src="/estrella.png" style="display: flex; justify-content: center; align-items: center; width: 20px; height: 20px; object-fit: contain; padding: 0px;">
-              </span>
-            </td>
-            <td></td>
-            <td class="background-gray"><strong> Estatus:</strong>{{ estatus }}</td>
-          </tr>
-          <tr>
-            <td> <strong>Nombre:</strong>{{ nombre }}</td>
-          </tr>
-          <tr>
-            <td></td>
-          </tr>
-          <tr>
-            <td><strong>Destino:</strong>{{ destino }}</td>
-            <td></td>
-            <td></td>
-            <td><strong>Fecha: </strong>{{ fecha }}</td>
-          </tr>
-          <tr>
-            <td><strong>Origen: </strong>{{ origen }}</td>
-          </tr>
-          <tr>
-            <td><strong>Duración: </strong>{{ duracion }}</td>
-            <td></td>
-            <td></td>
-            <td class="background-gray shadow-gray"><strong>Precio:</strong>S/{{precio}}</td>
-          </tr>
-        </table>
+    <div>
+      <div class="card-container">
+        <div class="travel-record-card">
+          <table>
+            <tr></tr>
+            <tr>
+              <td>
+                <img
+                    src="/FotoPerfil.png"
+                    alt="imagen del usuario"
+                    style="max-width: 200px; max-width: 50%; padding: 0px;"
+                />
+              </td>
+              <td class="!text-black background-blue">
+                <strong>Calificación:</strong>
+                <span v-for="i in estrellas">
+                  <img
+                      src="/estrella.png"
+                      style="display: flex; justify-content: center; align-items: center; width: 20px; height: 20px; object-fit: contain; padding: 0px;"
+                  />
+                </span>
+              </td>
+              <td></td>
+              <td class="!text-black background-gray">
+                <strong>Estatus:</strong>{{ estatus }}
+              </td>
+            </tr>
+            <tr>
+              <td class="!text-black">
+                <strong>Nombre:</strong>{{ nombre }}
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="!text-black">
+                <strong>Destino:</strong>{{ destino }}
+              </td>
+              <td></td>
+              <td></td>
+              <td class="!text-black">
+                <strong>Fecha: </strong>{{ fecha }}
+              </td>
+            </tr>
+            <tr>
+              <td class="!text-black">
+                <strong>Origen: </strong>{{ origen }}
+              </td>
+            </tr>
+            <tr>
+              <td class="!text-black">
+                <strong>Duración: </strong>{{ duracion }}
+              </td>
+              <td></td>
+              <td></td>
+              <td class="!text-black background-gray shadow-gray">
+                <strong>Precio:</strong> S/{{ precio }}
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </div>

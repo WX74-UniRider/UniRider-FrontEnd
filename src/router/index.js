@@ -48,7 +48,7 @@ const routes = [
     { path: '/OtherMethodpayment', component: OtherPaymentMethodComponent},
     {path: '/new-card', component: NewCard },
     {path: '/profile', component: ProfileUser },
-    {path: '/reservation-passenger\'', component: AppBookingFastForm},
+    {path: '/reservation-passenger', component: AppBookingFastForm},
     { path: '/create-trip', name: 'CreateTrip', component: CreateTrip }
 
 
