@@ -1,36 +1,36 @@
 <script setup>
-import {ref} from 'vue';
-import axios from 'axios'; // Importa axios
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import ToolbarComponent from "../../public/toolbar.component.vue";
-import {ProfileService} from "../../../../public/server/profile.service.js";
+import { ProfileService } from "../../../../public/server/profile.service.js";
+
+let componentLoadTime = null; // Tiempo en que se carga el componente
 
 const searchQuery = ref('');
 const drivers = ref([]);
 const selectedDriver = ref(null);
-const showOtherPaymentMethod = ref(false);
 const tripPrices = ref([]);
-const selectedPrice = ref(null); // Nueva variable para la tarifa seleccionada
-const selectedUniversity = ref(null); // Nueva variable para almacenar la universidad seleccionada
-const universities = ref([
-  { name: 'UPC', code: 'UPC' },
-  { name: 'PUCP', code: 'PUCP' },
-  { name: 'UTP', code: 'UTP' }
-]);
+const selectedPrice = ref(null);
 
 const generateRandomTripPrices = () => {
   const prices = [
-    {id: 1, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/'},
-    {id: 2, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/'},
-    {id: 3, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/'}
+    { id: 1, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/' },
+    { id: 2, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/' },
+    { id: 3, amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/' }
   ];
   return prices;
 };
+
+// Captura el tiempo cuando el usuario accede al componente
+onMounted(() => {
+  componentLoadTime = performance.now();
+  console.log('Tiempo inicial registrado:', componentLoadTime);
+});
 
 const fetchDrivers = async (destination) => {
   try {
     const profileService = new ProfileService();
     const result = await profileService.getDriversByDestination(destination);
-    console.log(result); // Verifica lo que se está recibiendo
     drivers.value = result;
   } catch (error) {
     console.error('Error fetching drivers:', error);
@@ -45,21 +45,18 @@ const handleSearchClick = () => {
   }
 };
 
-// Manejamos la selección de un conductor
 const selectDriver = (driver) => {
   selectedDriver.value = driver;
   tripPrices.value = generateRandomTripPrices();
-  selectedPrice.value = null; // Resetea la tarifa seleccionada al elegir un nuevo conductor
+  selectedPrice.value = null; // Resetea la tarifa seleccionada
 };
 
-// Función para seleccionar una tarifa
 const selectPrice = (price) => {
   selectedPrice.value = price;
-  console.log('Tarifa seleccionada:', selectedPrice.value);
 };
 
 const handleRequestTrip = async (paymentMethod) => {
-  if (selectedDriver.value && selectedPrice.value) { // Verifica si se ha seleccionado conductor y tarifa
+  if (selectedDriver.value && selectedPrice.value) {
     const passengerId = localStorage.getItem('userId');
     const driverId = selectedDriver.value.userId;
 
@@ -68,11 +65,27 @@ const handleRequestTrip = async (paymentMethod) => {
       driverId: driverId,
       passengerId: passengerId,
       status: 'PENDING',
-      price: selectedPrice.value.amount // Usa la tarifa seleccionada
+      price: selectedPrice.value.amount
     };
 
     try {
       await createTrip(tripData);
+
+      // Calcula el tiempo de finalización
+      const endTime = performance.now();
+      const duration = Math.round(endTime - componentLoadTime); // Duración en ms
+
+      // Envía el evento a Google Analytics o GTM
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'trip_request_duration',
+        duration: duration,
+        payment_method: paymentMethod,
+        driver: driverId,
+      });
+
+      console.log(`Duración desde carga hasta solicitud: ${duration} ms`);
+
       alert('Viaje solicitado con éxito');
     } catch (error) {
       console.error('Error al solicitar el viaje:', error);
@@ -82,17 +95,15 @@ const handleRequestTrip = async (paymentMethod) => {
   }
 };
 
-// Función para crear el viaje
 const createTrip = async (tripData) => {
-  const token = localStorage.getItem('token'); // Asegúrate de obtener el token
+  const token = localStorage.getItem('token');
   const response = await axios.post('http://localhost:8080/api/v1/trips', tripData, {
     headers: {
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     }
   });
   return response.data;
 };
-
 </script>
 
 <template>
@@ -116,16 +127,6 @@ const createTrip = async (tripData) => {
             🔍
           </span>
         </div>
-
-        <!-- Select para elegir universidad -->
-        <pv-select
-            v-model="selectedUniversity"
-            :options="universities"
-            showClear
-            optionLabel="name"
-            placeholder="Seleccione una universidad"
-            class="w-full sm:w-64 mb-6 text-lg"
-        />
 
         <div v-if="drivers.length === 0" class="text-gray-600 text-lg">
           <p>No hay conductores para este destino.</p>

@@ -40,8 +40,11 @@
   </div>
 </template>
 
+
 <script>
 import { BooksApiService } from "../../services/User-books.service.js";
+
+let startTime; // Variable para capturar el tiempo inicial
 
 export default {
   data() {
@@ -56,12 +59,30 @@ export default {
       successMessage: '' // Estado para el mensaje de éxito
     };
   },
+  mounted() {
+    // Capturar el tiempo inicial cuando se carga el componente
+    startTime = performance.now();
+  },
   methods: {
     async submitForm() {
       try {
         const response = await BooksApiService.createReservation(this.reservationData);
         console.log('Reserva creada:', response);
+
         this.successMessage = 'Reserva creada exitosamente'; // Actualizar el mensaje de éxito
+
+        // Capturar el tiempo final y calcular la duración
+        const endTime = performance.now();
+        const duration = Math.round(endTime - startTime); // Tiempo en milisegundos
+
+        // Enviar los datos al contenedor de Google Tag Manager
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'reservation_completed',
+          duration: duration // Tiempo total de creación
+        });
+
+        console.log(`Duración de creación de la reserva: ${duration} ms`);
       } catch (error) {
         console.error('Error creando reserva:', error);
       }
