@@ -23,6 +23,7 @@ import ReservationPassenger from "../unirider/shared/pages/reservation-passenger
 
 const routes = [
     { path: '/', component: LoginUser },
+    { path: '/login', component: LoginUser },
     { path: '/create', component: RegisterUser },
     { path: '/verify', component: ChooseUser },
     { path: '/home', name: 'Home', component: Home },

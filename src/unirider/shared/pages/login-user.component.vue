@@ -70,7 +70,7 @@ export default {
           localStorage.setItem('userId', user.id);
           localStorage.setItem('token', user.token);
           localStorage.setItem('role', user.roles[0]);
-          this.$router.push('/home');
+          this.$router.push('/verify');
         } else {
           this.alertMessage = "Credenciales incorrectas.";
           this.alertVisible = true;

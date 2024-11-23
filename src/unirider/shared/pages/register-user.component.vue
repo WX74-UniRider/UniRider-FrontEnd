@@ -1,8 +1,8 @@
 <script>
 import Welcome from '../components/welcoming/welcome.component.vue';
 import { AuthService } from '../../../../public/server/auth.service.js';
-import {Driver} from "../model/driver.entity.js";
-import {Passenger} from "../model/passenger.entity.js";
+import { Driver } from "../model/driver.entity.js";
+import { Passenger } from "../model/passenger.entity.js";
 
 export default {
   name: 'register-user',
@@ -51,8 +51,8 @@ export default {
           await this.authService.registerPassenger(passenger);
         }
 
-        // Redirigir a la página de verificación con el nombre y rol
-        this.$router.push({ path: '/verify', query: { nombre: this.firstName, rol: this.rol } });
+        // Redirigir a la página de inicio de sesión
+        this.$router.push({ path: '/login' });
       } catch (error) {
         console.error("Error durante el registro:", error);
         alert("Error durante el registro. Por favor, inténtelo de nuevo.");
@@ -64,7 +64,6 @@ export default {
   }
 }
 </script>
-
 <template>
   <div class="height-container">
     <div class="register-container">
