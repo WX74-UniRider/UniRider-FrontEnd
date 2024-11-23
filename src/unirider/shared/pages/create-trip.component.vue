@@ -1,5 +1,5 @@
+
 <template>
-  <toolbar-driver-component/>
   <div class="flex justify-center items-center !min-h-screen bg-blue-100">
     <!-- Contenedor del Formulario -->
     <div class="!w-full !max-w-2xl !bg-white !p-6 !rounded-lg !shadow-lg">
@@ -14,6 +14,22 @@
               class="!w-full !border !border-gray-300 !p-2 !rounded-md !focus:outline-none !focus:ring-1 !focus:ring-teal-400 !text-sm"
               placeholder="Ej: Miraflores"
               required
+          />
+        </div>
+        <div>
+          <label class="!block !text-gray-600 !text-sm">
+            Seleccionar Universidad y Sede:
+          </label>
+          <pv-cascade-select
+              v-model="selectedCampus"
+              :options="universities"
+              optionLabel="name"
+              optionGroupLabel="name"
+              :optionGroupChildren="['campuses']"
+              showClear
+              placeholder="Seleccione una universidad y su sede"
+              class="!w-96 sm:!w-64 !mb-6 !text-lg"
+              @change="updateDestination"
           />
         </div>
         <div>
@@ -81,35 +97,29 @@
             </li>
           </ul>
         </div>
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <div
-        v-if="showModal"
-        class="!fixed !inset-0 !bg-black !bg-opacity-50 !flex !justify-center !items-center !z-50"
-    >
-      <div class="!bg-white !p-6 !rounded-lg !shadow-lg !max-w-sm !w-full">
-        <h2 class="!text-xl !font-semibold !text-center !text-teal-700 !mb-4">{{ modalMessage }}</h2>
-        <pv-button
-            @click="closeModal"
-            class="!w-full !bg-gradient-to-r !from-teal-400 !to-teal-600 !hover:from-teal-500 !hover:to-teal-700 !text-white !py-2 !rounded-lg !text-base !font-semibold !shadow-md !hover:shadow-lg !transition-transform !duration-300 !ease-in-out !transform !hover:scale-105"
+        <!-- Modal -->
+        <div
+            v-if="showModal"
+            class="!fixed !inset-0 !bg-black !bg-opacity-50 !flex !justify-center !items-center !z-50"
         >
-          Cerrar
-        </pv-button>
+          <div class="!bg-white !p-6 !rounded-lg !shadow-lg !max-w-sm !w-full">
+            <h2 class="!text-xl !font-semibold !text-center !text-teal-700 !mb-4">{{ modalMessage }}</h2>
+            <pv-button
+                @click="closeModal"
+                class="!w-full !bg-gradient-to-r !from-teal-400 !to-teal-600 !hover:from-teal-500 !hover:to-teal-700 !text-white !py-2 !rounded-lg !text-base !font-semibold !shadow-md !hover:shadow-lg !transition-transform !duration-300 !ease-in-out !transform !hover:scale-105"
+            >
+              Cerrar
+            </pv-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-
-
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import ToolbarComponent from "../../public/toolbar.component.vue";
-import ToolbarDriverComponent from "../../public/toolbar-driver.component.vue";
-
 const destination = ref("");
 const price = ref("");
 const tripDate = ref("");
@@ -119,7 +129,92 @@ const showModal = ref(false);
 const modalMessage = ref("");
 const userId = ref(localStorage.getItem("userId")); // Obtener userId del local storage
 const router = useRouter();
-
+const selectedCampus = ref(null);
+const universities = ref([
+  {
+    name: 'Universidad Nacional Mayor de San Marcos (UNMSM)',
+    code: 'UNMSM',
+    campuses: [
+      { name: 'Sede Central', code: 'UNMSM-Central' },
+    ],
+  },
+  {
+    name: 'Pontificia Universidad Católica del Perú (PUCP)',
+    code: 'PUCP',
+    campuses: [
+      { name: 'Sede Principal', code: 'PUCP-Principal' },
+      { name: 'Sede Facultad de Derecho', code: 'PUCP-Derecho' },
+    ],
+  },
+  {
+    name: 'Universidad Peruana Cayetano Heredia (UPCH)',
+    code: 'UPCH',
+    campuses: [
+      { name: 'Sede Principal', code: 'UPCH-Principal' },
+      { name: 'Sede Facultad de Medicina', code: 'UPCH-Medicina' },
+      { name: 'Sede Facultad de Ciencias de la Salud', code: 'UPCH-CienciasSalud' },
+    ],
+  },
+  {
+    name: 'Universidad de Lima (UL)',
+    code: 'UL',
+    campuses: [
+      { name: 'Sede Principal', code: 'UL-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad Peruana de Ciencias Aplicadas (UPC)',
+    code: 'UPC',
+    campuses: [
+      { name: 'Sede San Isidro', code: 'UPC-SanIsidro' },
+      { name: 'Sede San Miguel', code: 'UPC-SanMiguel' },
+      { name: 'Sede Villa', code: 'UPC-Villa' },
+      { name: 'Sede Monterico', code: 'UPC-Monterico' },
+    ],
+  },
+  {
+    name: 'Universidad Nacional de Ingeniería (UNI)',
+    code: 'UNI',
+    campuses: [
+      { name: 'Sede Principal', code: 'UNI-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad de San Martín de Porres (USMP)',
+    code: 'USMP',
+    campuses: [
+      { name: 'Sede Central', code: 'USMP-Central' },
+      { name: 'Sede Surco', code: 'USMP-Surco' },
+      { name: 'Sede de Medicina', code: 'USMP-Medicina' },
+      { name: 'Sede de Miraflores', code: 'USMP-Miraflores' },
+    ],
+  },
+  {
+    name: 'Universidad Ricardo Palma (URP)',
+    code: 'URP',
+    campuses: [
+      { name: 'Sede Principal', code: 'URP-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad de Ciencias y Humanidades (UCH)',
+    code: 'UCH',
+    campuses: [
+      { name: 'Sede Principal', code: 'UCH-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad Tecnológica del Perú (UTP)',
+    code: 'UTP',
+    campuses: [
+      { name: 'Sede San Isidro', code: 'UTP-SanIsidro' },
+      { name: 'Sede Jesús María', code: 'UTP-JesusMaria' },
+      { name: 'Sede Centro de Lima', code: 'UTP-CentroLima' },
+      { name: 'Sede La Molina', code: 'UTP-LaMolina' },
+      { name: 'Sede Callao', code: 'UTP-Callao' },
+    ],
+  },
+]);
 const weekdays = [
   { label: "Lunes", value: "Lunes" },
   { label: "Martes", value: "Martes" },
@@ -129,14 +224,12 @@ const weekdays = [
   { label: "Sábado", value: "Sábado" },
   { label: "Domingo", value: "Domingo" },
 ];
-
 // Crear viaje
 const createTrip = () => {
   if (!userId.value) {
     alert("Error: No se encontró el ID de usuario en el local storage.");
     return;
   }
-
   const newTrip = {
     destination: destination.value,
     price: price.value,
@@ -144,18 +237,14 @@ const createTrip = () => {
     tripTime: tripTime.value,
     userId: userId.value,
   };
-
   console.log("Viaje creado:", newTrip);
-
   modalMessage.value = "Viaje creado exitosamente";
   showModal.value = true;
-
   setTimeout(() => {
     showModal.value = false;
     router.push("/home");
   }, 3000);
 };
-
 // Crear viaje frecuente
 const addToFrequentTrips = () => {
   if (destination.value && price.value && tripDate.value && tripTime.value) {
@@ -165,14 +254,12 @@ const addToFrequentTrips = () => {
       tripDate: tripDate.value,
       tripTime: tripTime.value,
     });
-
     modalMessage.value = "Viaje frecuente creado exitosamente";
     showModal.value = true;
   } else {
     alert("Por favor, completa todos los campos antes de agregar el viaje a frecuentes.");
   }
 };
-
 // Llenar el formulario con datos de un viaje frecuente
 const fillFormWithFrequentTrip = (trip) => {
   destination.value = trip.destination;
@@ -180,13 +267,17 @@ const fillFormWithFrequentTrip = (trip) => {
   tripDate.value = trip.tripDate;
   tripTime.value = trip.tripTime;
 };
-
 // Cerrar el modal
 const closeModal = () => {
   showModal.value = false;
 };
-</script>
 
+const updateDestination = () => {
+  if (selectedCampus.value) {
+    destination.value = selectedCampus.value.code;
+  }
+};
+</script>
 <style>
 /* Puedes agregar estilos personalizados si lo necesitas */
 </style>
