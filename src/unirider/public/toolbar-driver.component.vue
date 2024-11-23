@@ -18,7 +18,7 @@
         <router-link to="/create-trip" class="nav-link">Crear Viaje</router-link>
       </a>
 
-      <a  class="nav-link">Mis viajes</a>
+      <a ><router-link to="/viajesH" class="nav-link">Mis viajes</router-link></a>
 
       <a @click.prevent="logout" class="nav-link">Cerrar Sesión</a>
 

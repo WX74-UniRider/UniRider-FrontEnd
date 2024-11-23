@@ -20,6 +20,7 @@ import CreateTrip from "../unirider/shared/pages/create-trip.component.vue";
 import AppBookingFastForm from '../unirider/shared/components/app-booking-fast-form/app-booking-fast-form.component.vue';
 import BuscarMaps from '../unirider/shared/pages/buscarMaps.vue';
 import ReservationPassenger from "../unirider/shared/pages/reservation-passenger.vue";
+import ViajesDriver from "../unirider/shared/pages/viajes-driver.vue";
 
 const routes = [
     { path: '/', component: LoginUser },
@@ -50,7 +51,8 @@ const routes = [
     {path: '/new-card', component: NewCard },
     {path: '/profile', component: ProfileUser },
     {path: '/reservation-passenger', component: AppBookingFastForm},
-    { path: '/create-trip', name: 'CreateTrip', component: CreateTrip }
+    { path: '/create-trip', name: 'CreateTrip', component: CreateTrip },
+    {path: "/viajesH", component: ViajesDriver}
 
 
 ]
