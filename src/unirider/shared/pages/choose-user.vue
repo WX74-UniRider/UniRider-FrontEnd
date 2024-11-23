@@ -5,10 +5,11 @@ export default {
   name: "ChooseUser",
   data() {
     return {
-      nombre: this.$route.query.nombre || "Usuario", // Por si no llega el nombre
-      rol: null, // Inicializar rol como null
-      fileUploaded: false, // Para rastrear si se subió un archivo
-      file: null, // Almacenar el archivo cargado
+      nombre: this.$route.query.nombre || "Usuario",
+      rol: null,
+      fileUploaded: false,
+      file: null,
+      url: "", // Para almacenar la URL proporcionada
     };
   },
   methods: {
@@ -17,8 +18,8 @@ export default {
       const file = fileInput.files[0];
       if (file) {
         console.log(`Archivo ${index} seleccionado:`, file);
-        this.fileUploaded = true; // Cambiar a true si se seleccionó un archivo
-        this.file = file; // Almacenar el archivo
+        this.fileUploaded = true;
+        this.file = file;
       } else {
         console.log(`No se seleccionó ningún archivo para el índice ${index}`);
         this.fileUploaded = false;
@@ -41,18 +42,49 @@ export default {
         throw error;
       }
     },
+    async checkExistingUrl(passengerId) {
+      try {
+        const response = await axios.get(
+            `http://localhost:8080/api/v1/profile/${passengerId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+        );
+        // Verificar si existe la URL del carnet
+        if (response.data.idCardUrl) {
+          console.log("El pasajero ya tiene una URL configurada.");
+          this.$router.push("/home"); // Redirigir al home
+        }
+      } catch (error) {
+        console.error("Error al verificar la URL existente:", error);
+      }
+    },
     async onVerifyAccount() {
       if (this.fileUploaded && this.file) {
         try {
           const userId = localStorage.getItem("userId");
           const passengerId = await this.getPassengerId(userId);
 
-          const fileUrl = "URL_DEL_ARCHIVO"; // Reemplazar con la URL del archivo
+          // Subir archivo al servidor
+          const formData = new FormData();
+          formData.append("file", this.file);
+          const uploadResponse = await axios.post(
+              "http://localhost:8080/api/v1/files/upload",
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+          );
 
-          // Actualizar la URL en el backend
+          // Actualizar URL en el perfil del pasajero
           await axios.patch(
               `http://localhost:8080/api/v1/profile/${passengerId}/idCardUrl`,
-              { url: fileUrl },
+              { url: uploadResponse.data.fileUrl },
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -60,51 +92,75 @@ export default {
               }
           );
 
-          console.log("URL actualizada, redirigiendo a la página de inicio...");
-          this.$router.push("/home"); // Redirigir a la página principal si todo es correcto
+          console.log("Archivo subido y URL actualizada.");
+          this.$router.push("/home");
         } catch (error) {
-          console.error("Error al actualizar la URL:", error);
-          alert("Error al actualizar la URL. Revise la consola.");
+          console.error("Error al procesar la actualización:", error);
+          alert("Error al subir el archivo. Verifique la consola.");
+        }
+      } else if (this.url.trim()) {
+        try {
+          const userId = localStorage.getItem("userId");
+          const passengerId = await this.getPassengerId(userId);
+
+          // Actualizar la URL directamente en el perfil
+          await axios.patch(
+              `http://localhost:8080/api/v1/profile/${passengerId}/idCardUrl`,
+              { url: this.url },
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+          );
+
+          console.log("URL proporcionada actualizada.");
+          this.$router.push("/home");
+        } catch (error) {
+          console.error("Error al actualizar la URL proporcionada:", error);
+          alert("Error al procesar la URL proporcionada.");
         }
       } else {
-        alert("Por favor, suba el archivo requerido antes de continuar.");
+        alert("Por favor, suba un archivo o proporcione una URL antes de continuar.");
       }
     },
   },
+  async mounted() {
+    this.rol = localStorage.getItem("role");
+    console.log("Rol actual:", this.rol);
 
-  mounted() {
-    this.rol = localStorage.getItem("role"); // Obtener el rol del local storage
-    console.log("Rol actual:", this.rol); // Debug para verificar el rol
+    const userId = localStorage.getItem("userId");
+    if (this.rol === "ROLE_PASAJERO") {
+      try {
+        const passengerId = await this.getPassengerId(userId);
+        await this.checkExistingUrl(passengerId);
+      } catch (error) {
+        console.error("Error al verificar el perfil del pasajero:", error);
+      }
+    } else if (this.rol === "ROLE_CONDUCTOR") {
+      this.$router.push("/home");
+    }
   },
 };
 </script>
-
 <template>
   <div class="container">
     <div class="header">
-      <img src="../../../img/logoUniRider.png" class="logo" alt="Logo UniRider">
+      <img src="../../../img/logoUniRider.png" class="logo" alt="Logo UniRider" />
       <h1>Bienvenido a UniRider, {{ nombre }}!</h1>
       <p>Por favor, sube los documentos necesarios para completar tu perfil.</p>
     </div>
 
     <div class="form-container">
-      <!-- Sección para conductor -->
-      <div v-if="rol === 'ROLE_CONDUCTOR'">
-        <div class="field">
-          <label for="license">Licencia de conducir</label>
-          <input type="file" id="license" @change="handleFileChange(1)" accept="image/*" ref="fileInput1">
-        </div>
-        <div class="field">
-          <label for="insurance">Seguro vehicular</label>
-          <input type="file" id="insurance" @change="handleFileChange(2)" accept="image/*" ref="fileInput2">
-        </div>
-      </div>
-
       <!-- Sección para pasajero -->
-      <div v-else-if="rol === 'ROLE_PASAJERO'">
+      <div v-if="rol === 'ROLE_PASAJERO'">
         <div class="field">
           <label for="studentCard">Carnet universitario</label>
-          <input type="file" id="studentCard" @change="handleFileChange(3)" accept="image/*" ref="fileInput3">
+          <input type="file" id="studentCard" @change="handleFileChange(3)" accept="image/*" ref="fileInput3" />
+        </div>
+        <div class="field">
+          <label for="urlInput">O proporcione un enlace directo al documento:</label>
+          <input type="text" id="urlInput" v-model="url" placeholder="Ingrese el enlace aquí" />
         </div>
       </div>
 
