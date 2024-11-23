@@ -10,7 +10,92 @@ const selectedDriver = ref(null);
 const tripPrice = ref(null); // Almacena el costo único generado
 const selectedDate = ref(''); // Fecha seleccionada
 const selectedTime = ref(''); // Hora seleccionada
-
+const selectedCampus = ref(null);
+const universities = ref([
+  {
+    name: 'Universidad Nacional Mayor de San Marcos (UNMSM)',
+    code: 'UNMSM',
+    campuses: [
+      { name: 'Sede Central', code: 'UNMSM-Central' },
+    ],
+  },
+  {
+    name: 'Pontificia Universidad Católica del Perú (PUCP)',
+    code: 'PUCP',
+    campuses: [
+      { name: 'Sede Principal', code: 'PUCP-Principal' },
+      { name: 'Sede Facultad de Derecho', code: 'PUCP-Derecho' },
+    ],
+  },
+  {
+    name: 'Universidad Peruana Cayetano Heredia (UPCH)',
+    code: 'UPCH',
+    campuses: [
+      { name: 'Sede Principal', code: 'UPCH-Principal' },
+      { name: 'Sede Facultad de Medicina', code: 'UPCH-Medicina' },
+      { name: 'Sede Facultad de Ciencias de la Salud', code: 'UPCH-CienciasSalud' },
+    ],
+  },
+  {
+    name: 'Universidad de Lima (UL)',
+    code: 'UL',
+    campuses: [
+      { name: 'Sede Principal', code: 'UL-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad Peruana de Ciencias Aplicadas (UPC)',
+    code: 'UPC',
+    campuses: [
+      { name: 'Sede San Isidro', code: 'UPC-SanIsidro' },
+      { name: 'Sede San Miguel', code: 'UPC-SanMiguel' },
+      { name: 'Sede Villa', code: 'UPC-Villa' },
+      { name: 'Sede Monterico', code: 'UPC-Monterico' },
+    ],
+  },
+  {
+    name: 'Universidad Nacional de Ingeniería (UNI)',
+    code: 'UNI',
+    campuses: [
+      { name: 'Sede Principal', code: 'UNI-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad de San Martín de Porres (USMP)',
+    code: 'USMP',
+    campuses: [
+      { name: 'Sede Central', code: 'USMP-Central' },
+      { name: 'Sede Surco', code: 'USMP-Surco' },
+      { name: 'Sede de Medicina', code: 'USMP-Medicina' },
+      { name: 'Sede de Miraflores', code: 'USMP-Miraflores' },
+    ],
+  },
+  {
+    name: 'Universidad Ricardo Palma (URP)',
+    code: 'URP',
+    campuses: [
+      { name: 'Sede Principal', code: 'URP-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad de Ciencias y Humanidades (UCH)',
+    code: 'UCH',
+    campuses: [
+      { name: 'Sede Principal', code: 'UCH-Principal' },
+    ],
+  },
+  {
+    name: 'Universidad Tecnológica del Perú (UTP)',
+    code: 'UTP',
+    campuses: [
+      { name: 'Sede San Isidro', code: 'UTP-SanIsidro' },
+      { name: 'Sede Jesús María', code: 'UTP-JesusMaria' },
+      { name: 'Sede Centro de Lima', code: 'UTP-CentroLima' },
+      { name: 'Sede La Molina', code: 'UTP-LaMolina' },
+      { name: 'Sede Callao', code: 'UTP-Callao' },
+    ],
+  },
+]);
 const generateRandomTripPrice = () => {
   return { amount: (Math.random() * 50 + 10).toFixed(2), currency: 'S/' };
 };
@@ -36,6 +121,12 @@ const handleSearchClick = () => {
 const selectDriver = (driver) => {
   selectedDriver.value = driver;
   tripPrice.value = generateRandomTripPrice(); // Genera un costo único al seleccionar conductor
+};
+
+const updateDestination = () => {
+  if (selectedCampus.value) {
+    searchQuery.value = selectedCampus.value.code; // Actualiza el campo de búsqueda
+  }
 };
 
 const handleRequestReservation = async () => {
@@ -79,6 +170,18 @@ const handleRequestReservation = async () => {
             v-model="searchQuery"
             placeholder="Buscar destino"
             class="!w-full !p-4 !mb-4 !border !rounded-lg focus:!outline-none focus:!ring focus:!ring-primary !text-lg"
+        />
+
+        <pv-cascade-select
+            v-model="selectedCampus"
+            :options="universities"
+            optionLabel="name"
+            optionGroupLabel="name"
+            :optionGroupChildren="['campuses']"
+            showClear
+            placeholder="Seleccione una universidad y su sede"
+            class="!w-full sm:!w-64 !mb-6 !text-lg"
+            @change="updateDestination"
         />
 
         <!-- Inputs de fecha y hora -->

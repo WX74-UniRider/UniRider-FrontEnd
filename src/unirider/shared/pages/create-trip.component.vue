@@ -1,5 +1,6 @@
 
 <template>
+  <toolbar-driver-component/>
   <div class="flex justify-center items-center !min-h-screen bg-blue-100">
     <!-- Contenedor del Formulario -->
     <div class="!w-full !max-w-2xl !bg-white !p-6 !rounded-lg !shadow-lg">
@@ -120,6 +121,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import ToolbarDriverComponent from "../../public/toolbar-driver.component.vue";
 const destination = ref("");
 const price = ref("");
 const tripDate = ref("");
