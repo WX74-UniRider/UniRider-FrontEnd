@@ -5,24 +5,29 @@ export default {
     distance: String,
     pickupPoint: String,
     passengerName: String,
-    price: Number
+    price: Number,
   },
-}
+};
 </script>
 
 <template>
   <div class="passenger-info-card">
     <table>
+      <thead>
       <tr>
         <th colspan="2"><h2>Información del Pasajero</h2></th>
       </tr>
+      </thead>
+      <tbody>
       <tr>
         <td>Distancia:</td>
         <td>{{ distance }}</td>
       </tr>
       <tr>
         <th colspan="2"><h2>Pasajero:</h2></th>
-        <td>{{ passengerName}}</td>
+      </tr>
+      <tr>
+        <td colspan="2">{{ passengerName }}</td>
       </tr>
       <tr>
         <td>Punto de recojo:</td>
@@ -32,6 +37,7 @@ export default {
         <td>Precio:</td>
         <td>{{ price }}</td>
       </tr>
+      </tbody>
     </table>
   </div>
 </template>
@@ -41,7 +47,7 @@ export default {
   color: white;
   background-color: black;
   max-width: 60%;
-  margin:  auto;
+  margin: auto;
   margin-top: 20px;
   padding-bottom: 20px;
   margin-bottom: 20px;
@@ -49,7 +55,7 @@ export default {
   text-align: center;
 }
 
-h2{
+h2 {
   color: white;
 }
 </style>
